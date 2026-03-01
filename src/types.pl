@@ -37,7 +37,12 @@
     up_sliding_stop/3,
     down_sliding_stop/3,
     left_sliding_stop/3,
-    right_sliding_stop/3
+    right_sliding_stop/3,
+
+    up_right_sliding_stop/3,
+    up_left_sliding_stop/3,
+    down_right_sliding_stop/3,
+    down_left_sliding_stop/3
 ]).
 
 
@@ -76,10 +81,6 @@ is_a_rank(8).
 is_a_square(F-R) :- is_a_file(F), is_a_rank(R).
 
 is_a_piece(Color-Role) :- is_a_color(Color), is_a_role(Role).
-
-is_a_board([]).
-is_a_board([Piece-Square|Rest]) :- is_a_piece(Piece), is_a_square(Square), is_a_board(Rest).
-
 
 up_rank(1, 2).
 up_rank(2, 3).
@@ -202,3 +203,66 @@ right_sliding_stop(X, Stop, [Stop]) :- right(X, Stop).
 right_sliding_stop(X, Stop, [Y|Rest]) :- right(X, Y), Y \= Stop,
 right_sliding_stop(Y, Stop, Rest).
 
+up_right_sliding_stop(_, _, []).
+up_right_sliding_stop(X, Stop, [Stop]) :- up_right(X, Stop).
+up_right_sliding_stop(X, Stop, [Y|Rest]) :- up_right(X, Y), Y \= Stop,
+up_right_sliding_stop(Y, Stop, Rest).
+
+up_left_sliding_stop(_, _, []).
+up_left_sliding_stop(X, Stop, [Stop]) :- up_left(X, Stop).
+up_left_sliding_stop(X, Stop, [Y|Rest]) :- up_left(X, Y), Y \= Stop,
+up_left_sliding_stop(Y, Stop, Rest).
+
+
+down_right_sliding_stop(_, _, []).
+down_right_sliding_stop(X, Stop, [Stop]) :- down_right(X, Stop).
+down_right_sliding_stop(X, Stop, [Y|Rest]) :- down_right(X, Y), Y \= Stop,
+down_right_sliding_stop(Y, Stop, Rest).
+
+down_left_sliding_stop(_, _, []).
+down_left_sliding_stop(X, Stop, [Stop]) :- down_left(X, Stop).
+down_left_sliding_stop(X, Stop, [Y|Rest]) :- down_left(X, Y), Y \= Stop,
+down_left_sliding_stop(Y, Stop, Rest).
+
+
+pawn_forward(white, A, B) :- up(A, B).
+pawn_forward(black, A, B) :- down(A, B).
+
+pawn_forward2(white, A, B) :- up2(A, B).
+pawn_forward2(black, A, B) :- down2(A, B).
+
+
+castle_short_king(e-1, g-1).
+castle_short_king(e-8, g-8).
+
+castle_short_rook(h-1, f-1).
+castle_short_rook(h-8, f-8).
+
+castle_long_king(e-1, c-1).
+castle_long_king(e-8, c-8).
+
+castle_long_rook(a-1, d-1).
+castle_long_rook(a-8, d-8).
+
+
+:- dynamic occupies/2.
+:- dynamic piece_at/4.
+
+rook_attack(W, From ,To) :-
+  rook_line(From, To),
+  \+ (
+    blocker_for(From, To, Mid),
+    occupies(W, Mid)
+  ).
+
+bishop_attack(W, From ,To) :-
+  bishop_line(From, To),
+  \+ (
+    blocker_for(From, To, Mid),
+    occupies(W, Mid)
+  ).
+
+
+queen_attack(W, From, To) :-
+  rook_attack(W, From, To);
+  bishop_attack(W, From, To).
