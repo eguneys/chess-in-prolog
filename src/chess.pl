@@ -1,54 +1,56 @@
-:- use_module(node_manager, [
-    node_id/1,
-    add_root
- ]).
+:- use_module(board_manager).
 
-color(white).
-color(black).
+is_a_color(white).
+is_a_color(black).
 
 opposite(white, black).
 opposite(black, white).
 
-role(bishop).
-role(rook).
-role(knight).
-role(queen).
-role(king).
-role(pawn).
+is_a_role(bishop).
+is_a_role(rook).
+is_a_role(knight).
+is_a_role(queen).
+is_a_role(king).
+is_a_role(pawn).
 
 
-file(a).
-file(b).
-file(c).
-file(d).
-file(e).
-file(f).
-file(g).
-file(h).
+is_a_file(a).
+is_a_file(b).
+is_a_file(c).
+is_a_file(d).
+is_a_file(e).
+is_a_file(f).
+is_a_file(g).
+is_a_file(h).
 
-rank(1).
-rank(2).
-rank(3).
-rank(4).
-rank(5).
-rank(6).
-rank(7).
-rank(8).
+is_a_rank(1).
+is_a_rank(2).
+is_a_rank(3).
+is_a_rank(4).
+is_a_rank(5).
+is_a_rank(6).
+is_a_rank(7).
+is_a_rank(8).
 
-square(F-R) :- file(F), rank(R).
+is_a_square(F-R) :- is_a_file(F), is_a_rank(R).
 
-piece(Color-Role) :- color(Color), role(Role).
+is_a_piece(Color-Role) :- is_a_color(Color), is_a_role(Role).
 
-board([]).
-board([Piece-Square|Rest]) :- piece(Piece), square(Square), board(Rest).
-
-world_id(W) :- node_id(W).
-
-world(W-B) :- world_id(W), board(B).
-
-turn(W, From, Role, Color) :- world(W), square(From), role(Role), color(Color).
-opponent(W, From, Role, Color) :- world(W), square(From), role(Role), color(Color).
+is_a_board([]).
+is_a_board([Piece-Square|Rest]) :- is_a_piece(Piece), is_a_square(Square), is_a_board(Rest).
 
 
+board_move(Board, From, To, BAfter) :- 
+select(Piece-From, Board, BFrom),
+exclude(_Captured-To, BFrom, BTo),
+BAfter = [Piece-To | BTo].
 
-world_state(0-[white-bishop-(a-1)]).
+add_world_from_to(W-B, From, To, W2B2) :- 
+board_move(B, From, To, B2),
+W2B2 = _W2-B2,
+add_world(W, From-To, W2B2).
+
+
+root_world_with_legality(B) :- add_root_world(B).
+
+b_on_a1([white-bishop-(a-1)]).

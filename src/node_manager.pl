@@ -25,15 +25,18 @@ add_root :-
 
 node_id(Node):- cache_node(Node).
 
+add_move(Parent, Move, Child) :-
+cache_edge(Parent, Move, Child),
+!.
+
 % Add a move: returns the newly created Child ID
 add_move(Parent, Move, Child) :-
     cache_node(Parent),
-    next_id(Child),
-    Next is Child + 1,
-    assertz(cache_node(Child)),
-    assertz(cache_edge(Parent, Move, Child)),
     retract(next_id(Child)),
-    assertz(next_id(Next)).
+    Next is Child + 1,
+    assertz(next_id(Next)),
+    assertz(cache_node(Child)),
+    assertz(cache_edge(Parent, Move, Child)).
 
 % Navigation
 get_children(Parent, Children) :- 
