@@ -1,7 +1,5 @@
 :- use_module(board_manager).
 
-
-
 board_move(Board, From, To, BAfter) :- 
 select(Piece-From, Board, BFrom),
 exclude(_Captured-To, BFrom, BTo),
