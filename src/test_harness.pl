@@ -50,7 +50,7 @@ run_perft1_verbose(FEN) :-
   load_fen(FEN),
   findall(M, legal_move(root, M), Moves),
   length(Moves, Count),
-  format("perft1(1) = ~w~n", [Count]).
+  format("perft1(1) = ~w~n", [Count]),
   forall(member(M, Moves), writeln(M)).
 
 perft_smoke_tests :-

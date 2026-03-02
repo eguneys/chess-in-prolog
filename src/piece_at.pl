@@ -203,7 +203,7 @@ leaves_king_in_check(W, castle(Color, _)) :-
 leaves_king_in_check(W, castle(Color, Side)) :-
    king_castle_path(Color, Side, [Mid|_]),
    king_start(Color, KFrom),
-   hyp_king_step(W, Color, KFrom, Mid, MidWorld),
+   hyp_king_step(W, KFrom, Mid, MidWorld),
    in_check(MidWorld, Color).
 
 leaves_king_in_check(W, Move) :-
@@ -211,7 +211,7 @@ leaves_king_in_check(W, Move) :-
   hyp_world(W, Move, W2),
   in_check(W2, Color).
 
-hyp_king_step(W, Color, From, To, MidWorld) :-
+hyp_king_step(W, From, To, MidWorld) :-
   hyp_world(W, move(From, To), MidWorld).
 
 hyp_world(W, Move, W2) :-
