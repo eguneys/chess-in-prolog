@@ -1,4 +1,26 @@
-how do I define knight_attack, king_attack or pawn_attack, should them be pre-generated along with rook_attack and bishop_attack the same way?
+- [x] how do I define knight_attack, king_attack or pawn_attack, should them be pre-generated along with rook_attack and bishop_attack the same way?
 
-what is the difference between hyp_world and actually making a move like apply_world which we haven't defined before.
+- [+] what is the difference between hyp_world and actually making a move like apply_world or create_child_world, can we do those next.
+
+- [x] how is delta_for_move should work.
+
+- [ ] 
+
+
+- [ ] 
+
+When we do this for castle move
+
+
+delta_for_move(W2, castle(Color, Side)) :-
+  parent(W2, W),
+
+  king_start(Color, KFrom),
+  king_castle_to(Color, Side, KTo),
+  rook_start(Color, Side, RFrom),
+  rook_castle_to(Color, Side, RTo),
+
+
+shouldn't king_start king_castle_to rules be bound by W? because W is not used.
+
 

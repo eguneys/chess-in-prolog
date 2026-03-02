@@ -2,10 +2,15 @@
   piece_at/4,
   base_piece_at/4,
   base_side_to_move/2,
-  legal_move/2
+  legal_move/2,
+  reset_worlds/0,
+  in_check/2,
+  empty/2
   ]).
 
 :- use_module(types).
+:- use_module(node_id).
+:- use_module(geometry).
 
 
 :- dynamic base_piece_at/4.
@@ -15,7 +20,6 @@
 :- dynamic base_half_move/2.
 :- dynamic base_full_move/2.
 
-:- dynamic parent/2.
 :- dynamic delta_del/4.
 :- dynamic delta_add/4.
 
@@ -26,6 +30,24 @@
 
 :- dynamic delta_halfmove_reset/1.
 :- dynamic delta_halfmove_inc/1.
+
+reset_worlds :-
+  reset_boards,
+  reset_nodes.
+
+reset_boards :-
+  retractall(base_piece_at(_, _, _, _)),
+  retractall(base_side_to_move(_, _)),
+  retractall(base_castle_right(_, _, _)),
+  retractall(base_half_move(_, _)),
+  retractall(delta_add(_, _, _, _)),
+  retractall(delta_del(_, _, _, _)),
+  retractall(delta_no_castle(_, _, _)),
+  retractall(delta_ep_add(_)),
+  retractall(delta_ep_clear(_)),
+  retractall(delta_halfmove_reset(_)),
+  retractall(delta_halfmove_inc(_)).
+
 
 piece_at(W, Sq, P, C) :-
   delta_add(W, Sq, P, C).
@@ -54,7 +76,7 @@ castle_right(root, Color, Side) :-
   base_castle_right(root, Color, Side).
 
 castle_right(W, Color, Side) :-
-  parnet(W, P),
+  parent(W, P),
   castle_right(P, Color, Side),
   \+ delta_no_castle(W, Color, Side).
 
@@ -97,11 +119,96 @@ fullmove(W, N1) :-
 
 
 legal_move(W, Move) :-
-  side_to_move(W, Color),
-  piece_at(W, From, Piece, Color),
-  pseudo_legal_move(W, From, Piece, Move),
+  side_to_move(W, _Color),
+  pseudo_legal_move(W, Move),
   \+ leaves_king_in_check(W, Move).
 
+
+empty(W, Sq) :-
+  \+ occupies(W, Sq).
+
+enemy_at(W, Sq, Color) :-
+  piece_at(W, Sq, _, Other),
+  opposite_color(Other, Color).
+
+
+pseudo_legal_move(W, move(From, To)) :-
+  piece_at(W, From, Piece, _Color),
+  sliding_piece(Piece),
+  attacks(W, Piece, From, To),
+  empty(W, To).
+
+
+pseudo_legal_move(W, move(From, To)) :-
+  piece_at(W, From, Piece, Color),
+  sliding_piece(Piece),
+  attacks(W, Piece, From, To),
+  enemy_at(W, To, Color).
+
+pseudo_legal_move(W, move(From, To)) :-
+  piece_at(W, From, knight, Color),
+  knight_attack(From, To),
+  (
+    empty(W, To)
+    ; enemy_at(W, To, Color)
+  ).
+
+
+pseudo_legal_move(W, move(From, To)) :-
+  piece_at(W, From, king, Color),
+  king_attack(From, To),
+  (
+    empty(W, To)
+    ; enemy_at(W, To, Color)
+  ).
+
+
+pseudo_legal_move(W, move(From, To)) :-
+  piece_at(W, From, pawn, Color),
+  pawn_attack(W, From, To),
+  enemy_at(W, To, Color).
+
+pseudo_legal_move(W, move(From, To)) :-
+  piece_at(W, From, pawn, Color),
+  pawn_step(Color, From, To),
+  empty(W, To).
+
+pseudo_legal_move(W, move(From, To2)) :-
+  piece_at(W, From, pawn, Color),
+  pawn_double_step(Color, From, To2).
+
+pseudo_legal_move(W, move(From, To)) :-
+  piece_at(W, From, pawn, _Color),
+  pawn_attack(W, From, To),
+  ep_square(W, To).
+
+
+pseudo_legal_move(W, castle(Color, Side)) :-
+  side_to_move(W, Color),
+  castle_right(W, Color, Side),
+  king_start(Color, KFrom),
+  piece_at(W, KFrom, king, Color),
+  rook_start(Color, Side, RFrom),
+  piece_at(W, RFrom, rook, Color),
+  castle_path_clear(W, Color, Side).
+
+castle_path_clear(W, Color, Side) :-
+  king_castle_path(Color, Side, Squares),
+  forall(member(Sq, Squares), \+ occupies(W, Sq)).
+
+
+leaves_king_in_check(W, castle(Color, _)) :-
+  in_check(W, Color).
+
+leaves_king_in_check(W, castle(Color, Side)) :-
+   king_castle_path(Color, Side, [Mid|_]),
+   king_start(Color, KFrom),
+   hyp_king_step(W, Color, KFrom, Mid),
+   in_check(MidWorld, Color).
+
+
+  hyp_king_step(W, Color, From, To) :-
+    hyp_world(W, move(From, To), MidWorld).
 
 leaves_king_in_check(W, Move) :-
   side_to_move(W, Color),
@@ -118,24 +225,162 @@ in_check(W, Color) :-
   attacked_by(W, Opp, KingSq).
 
 
-
-% delta_for_move(W, Move).
-  % asserts delta_del delta_add castling ep etc.
-
-
-/*
-% No Castling logic yet
-play_from_to(W, From, To, W2) :-
- assertz(parent(W2, W)),
- piece_at(W, From, Piece, Color),
- assertz(delta_del, W, From, Piece, Color),
- assertz(delta_add, W, To, Piece, Color),
- piece_at(W, To, CapturedPiece, CapturedColor) ->
- assertz(delta_del, W, To, CapturedPiece, CapturedColor).
- */
+create_child_world(W, Move, W2) :-
+  new_world_id(W2),
+  record_parent(W2, W),
+  delta_for_move(W2, Move),
+  record_edge(W, Move, W2).
 
 
 
+delta_for_move(W2, promote(From, To, NewPiece)) :-
+  parent(W2, W),
+  piece_at(W, From, pawn, Color),
+  piece_at(W, To, Captured, Opp),
+  opposite_color(Color, Opp),
+
+  assert(delta_del(W2, From, pawn, Color)),
+  assert(delta_del(W2, To, Captured, Opp)),
+
+  assert(delta_add(W2, To, NewPiece, Color)),
+
+  assert(delta_ep_clear(W2)),
+  assert(delta_halfmove_reset(W2)).
+
+
+
+
+delta_for_move(W2, promote(From, To, NewPiece)) :-
+  parent(W2, W),
+  piece_at(W, From, pawn, Color),
+
+  assert(delta_del(W2, From, pawn, Color)),
+  assert(delta_add(W2, To, NewPiece, Color)),
+
+  assert(delta_ep_clear(W2)),
+  assert(delta_halfmove_reset(W2)).
+
+
+
+delta_for_move(W2, castle(Color, Side)) :-
+  parent(W2, _W),
+
+  king_start(Color, KFrom),
+  king_castle_to(Color, Side, KTo),
+  rook_start(Color, Side, RFrom),
+  rook_castle_to(Color, Side, RTo),
+
+  % move king
+  assert(delta_del(W2, KFrom, king, Color)),
+  assert(delta_add(W2, KTo, king, Color)),
+
+  % move rook
+  assert(delta_del(W2, RFrom, rook, Color)),
+  assert(delta_add(W2, RTo, rook, Color)),
+
+  % lose castling rights
+  assert(delta_no_castle(W2, Color, king_side)),
+  assert(delta_no_castle(W2, Color, queen_side)),
+
+  assert(delta_ep_clear(W2)),
+  assert(delta_halfmove_inc(W2)).
+
+
+delta_for_move(W, move(From, To)) :-
+  parent(W2, W),
+  piece_at(W, From, pawn, Color),
+  ep_square(W, To),
+
+  % capture pawn behind To
+  ep_captured_square(Color, To, CapSq),
+  piece_at(W, CapSq, pawn, Opp),
+  opposite_color(Color, Opp),
+
+  assert(delta_del(W2, From, pawn, Color)),
+  assert(delta_del(W2, CapSq, pawn, Opp)),
+  assert(delta_add(W2, To, pawn, Color)),
+
+  assert(delta_ep_clear(W2)),
+  assert(delta_halfmove_reset(W2)).
+
+
+delta_for_move(W, move(From, To)) :-
+  parent(W2, W),
+  piece_at(W, From, pawn, Color),
+  pawn_double_step(Color, From, To),
+
+  % pawn moves
+  assert(delta_del(W2, From, pawn, Color)),
+  assert(delta_add(W2, To, pawn, Color)),
+
+  % en-passant square
+  ep_target_square(Color, From, EpSq),
+  assert(delta_ep_add(W2, EpSq)),
+
+  assert(delta_halfmove_reset(W2)).
+
+
+delta_for_move(W, move(From, To)) :-
+  parent(W2, W),
+  piece_at(W, From, Piece, Color),
+  piece_at(W, To, Captured, Opp),
+  opposite_color(Color, Opp),
+
+  % remove both
+  assert(delta_del(W2, From, Piece, Color)),
+  assert(delta_del(W2, To, Captured, Opp)),
+
+  % add moving piece
+  assert(delta_add(W2, To, Piece, Color)),
+
+  % en-passant always cleared
+  assert(delta_ep_clear(W2)),
+
+  assert(delta_halfmove_reset(W2)),
+
+  % castling rights possibly affected
+  castle_capture_deltas(W2, To, Captured, Opp).
+
+
+delta_for_move(W, move(From, To)) :-
+  parent(W2, W),
+  piece_at(W, From, Piece, Color),
+
+  % piece moves
+  assert(delta_del(W2, From, Piece, Color)),
+  assert(delta_add(W2, To, Piece, Color)),
+
+  % en-passant always cleared
+  assert(delta_ep_clear(W2)),
+
+  % halfmove clock
+  ( Piece = pawn
+    -> assert(delta_halfmove_reset(W2))
+    ; assert(delta_halfmove_inc(W2))
+    ),
+
+  % castling rights possibly affected
+  castle_deltas(W2, From, Piece, Color).
+
+
+
+castle_deltas(W2, From, king, Color) :-
+  king_start(Color, From),
+  assert(delta_no_castle(W2, Color, king_side)),
+  assert(delta_no_castle(W2, Color, queen_side)).
+  
+
+castle_deltas(W2, From, rook, Color) :-
+  rook_start(Color, Side, From),
+  assert(delta_no_castle(W2, Color, Side)).
+  
+castle_deltas(_, _, _, _). % default
+
+castle_capture_deltas(W2, From, rook, Color) :-
+  rook_start(Color, Side, From),
+  assert(delta_no_castle(W2, Color, Side)).
+
+castle_capture_deltas(_, _, _, _). % default
 
 :- table piece_at/4.
 :- table in_check/2.
