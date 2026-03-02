@@ -4043,3 +4043,960 @@ blocker_for(h8, h4, h7).
 blocker_for(h8, h5, h6).
 blocker_for(h8, h5, h7).
 blocker_for(h8, h6, h7).
+
+
+% --- pawn attack geom ---
+% pawn_attack_geom(white, e4, d5).
+% pawn_attack_geom(white, e4, f5).
+pawn_attack_geom(white, a2, b3).
+pawn_attack_geom(black, a2, b1).
+pawn_attack_geom(white, a3, b4).
+pawn_attack_geom(black, a3, b2).
+pawn_attack_geom(white, a4, b5).
+pawn_attack_geom(black, a4, b3).
+pawn_attack_geom(white, a5, b6).
+pawn_attack_geom(black, a5, b4).
+pawn_attack_geom(white, a6, b7).
+pawn_attack_geom(black, a6, b5).
+pawn_attack_geom(white, a7, b8).
+pawn_attack_geom(black, a7, b6).
+pawn_attack_geom(white, b2, c3).
+pawn_attack_geom(white, b2, a3).
+pawn_attack_geom(black, b2, c1).
+pawn_attack_geom(black, b2, a1).
+pawn_attack_geom(white, b3, c4).
+pawn_attack_geom(white, b3, a4).
+pawn_attack_geom(black, b3, c2).
+pawn_attack_geom(black, b3, a2).
+pawn_attack_geom(white, b4, c5).
+pawn_attack_geom(white, b4, a5).
+pawn_attack_geom(black, b4, c3).
+pawn_attack_geom(black, b4, a3).
+pawn_attack_geom(white, b5, c6).
+pawn_attack_geom(white, b5, a6).
+pawn_attack_geom(black, b5, c4).
+pawn_attack_geom(black, b5, a4).
+pawn_attack_geom(white, b6, c7).
+pawn_attack_geom(white, b6, a7).
+pawn_attack_geom(black, b6, c5).
+pawn_attack_geom(black, b6, a5).
+pawn_attack_geom(white, b7, c8).
+pawn_attack_geom(white, b7, a8).
+pawn_attack_geom(black, b7, c6).
+pawn_attack_geom(black, b7, a6).
+pawn_attack_geom(white, c2, d3).
+pawn_attack_geom(white, c2, b3).
+pawn_attack_geom(black, c2, d1).
+pawn_attack_geom(black, c2, b1).
+pawn_attack_geom(white, c3, d4).
+pawn_attack_geom(white, c3, b4).
+pawn_attack_geom(black, c3, d2).
+pawn_attack_geom(black, c3, b2).
+pawn_attack_geom(white, c4, d5).
+pawn_attack_geom(white, c4, b5).
+pawn_attack_geom(black, c4, d3).
+pawn_attack_geom(black, c4, b3).
+pawn_attack_geom(white, c5, d6).
+pawn_attack_geom(white, c5, b6).
+pawn_attack_geom(black, c5, d4).
+pawn_attack_geom(black, c5, b4).
+pawn_attack_geom(white, c6, d7).
+pawn_attack_geom(white, c6, b7).
+pawn_attack_geom(black, c6, d5).
+pawn_attack_geom(black, c6, b5).
+pawn_attack_geom(white, c7, d8).
+pawn_attack_geom(white, c7, b8).
+pawn_attack_geom(black, c7, d6).
+pawn_attack_geom(black, c7, b6).
+pawn_attack_geom(white, d2, e3).
+pawn_attack_geom(white, d2, c3).
+pawn_attack_geom(black, d2, e1).
+pawn_attack_geom(black, d2, c1).
+pawn_attack_geom(white, d3, e4).
+pawn_attack_geom(white, d3, c4).
+pawn_attack_geom(black, d3, e2).
+pawn_attack_geom(black, d3, c2).
+pawn_attack_geom(white, d4, e5).
+pawn_attack_geom(white, d4, c5).
+pawn_attack_geom(black, d4, e3).
+pawn_attack_geom(black, d4, c3).
+pawn_attack_geom(white, d5, e6).
+pawn_attack_geom(white, d5, c6).
+pawn_attack_geom(black, d5, e4).
+pawn_attack_geom(black, d5, c4).
+pawn_attack_geom(white, d6, e7).
+pawn_attack_geom(white, d6, c7).
+pawn_attack_geom(black, d6, e5).
+pawn_attack_geom(black, d6, c5).
+pawn_attack_geom(white, d7, e8).
+pawn_attack_geom(white, d7, c8).
+pawn_attack_geom(black, d7, e6).
+pawn_attack_geom(black, d7, c6).
+pawn_attack_geom(white, e2, f3).
+pawn_attack_geom(white, e2, d3).
+pawn_attack_geom(black, e2, f1).
+pawn_attack_geom(black, e2, d1).
+pawn_attack_geom(white, e3, f4).
+pawn_attack_geom(white, e3, d4).
+pawn_attack_geom(black, e3, f2).
+pawn_attack_geom(black, e3, d2).
+pawn_attack_geom(white, e4, f5).
+pawn_attack_geom(white, e4, d5).
+pawn_attack_geom(black, e4, f3).
+pawn_attack_geom(black, e4, d3).
+pawn_attack_geom(white, e5, f6).
+pawn_attack_geom(white, e5, d6).
+pawn_attack_geom(black, e5, f4).
+pawn_attack_geom(black, e5, d4).
+pawn_attack_geom(white, e6, f7).
+pawn_attack_geom(white, e6, d7).
+pawn_attack_geom(black, e6, f5).
+pawn_attack_geom(black, e6, d5).
+pawn_attack_geom(white, e7, f8).
+pawn_attack_geom(white, e7, d8).
+pawn_attack_geom(black, e7, f6).
+pawn_attack_geom(black, e7, d6).
+pawn_attack_geom(white, f2, g3).
+pawn_attack_geom(white, f2, e3).
+pawn_attack_geom(black, f2, g1).
+pawn_attack_geom(black, f2, e1).
+pawn_attack_geom(white, f3, g4).
+pawn_attack_geom(white, f3, e4).
+pawn_attack_geom(black, f3, g2).
+pawn_attack_geom(black, f3, e2).
+pawn_attack_geom(white, f4, g5).
+pawn_attack_geom(white, f4, e5).
+pawn_attack_geom(black, f4, g3).
+pawn_attack_geom(black, f4, e3).
+pawn_attack_geom(white, f5, g6).
+pawn_attack_geom(white, f5, e6).
+pawn_attack_geom(black, f5, g4).
+pawn_attack_geom(black, f5, e4).
+pawn_attack_geom(white, f6, g7).
+pawn_attack_geom(white, f6, e7).
+pawn_attack_geom(black, f6, g5).
+pawn_attack_geom(black, f6, e5).
+pawn_attack_geom(white, f7, g8).
+pawn_attack_geom(white, f7, e8).
+pawn_attack_geom(black, f7, g6).
+pawn_attack_geom(black, f7, e6).
+pawn_attack_geom(white, g2, h3).
+pawn_attack_geom(white, g2, f3).
+pawn_attack_geom(black, g2, h1).
+pawn_attack_geom(black, g2, f1).
+pawn_attack_geom(white, g3, h4).
+pawn_attack_geom(white, g3, f4).
+pawn_attack_geom(black, g3, h2).
+pawn_attack_geom(black, g3, f2).
+pawn_attack_geom(white, g4, h5).
+pawn_attack_geom(white, g4, f5).
+pawn_attack_geom(black, g4, h3).
+pawn_attack_geom(black, g4, f3).
+pawn_attack_geom(white, g5, h6).
+pawn_attack_geom(white, g5, f6).
+pawn_attack_geom(black, g5, h4).
+pawn_attack_geom(black, g5, f4).
+pawn_attack_geom(white, g6, h7).
+pawn_attack_geom(white, g6, f7).
+pawn_attack_geom(black, g6, h5).
+pawn_attack_geom(black, g6, f5).
+pawn_attack_geom(white, g7, h8).
+pawn_attack_geom(white, g7, f8).
+pawn_attack_geom(black, g7, h6).
+pawn_attack_geom(black, g7, f6).
+pawn_attack_geom(white, h2, undefined3).
+pawn_attack_geom(white, h2, g3).
+pawn_attack_geom(black, h2, undefined1).
+pawn_attack_geom(black, h2, g1).
+pawn_attack_geom(white, h3, undefined4).
+pawn_attack_geom(white, h3, g4).
+pawn_attack_geom(black, h3, undefined2).
+pawn_attack_geom(black, h3, g2).
+pawn_attack_geom(white, h4, undefined5).
+pawn_attack_geom(white, h4, g5).
+pawn_attack_geom(black, h4, undefined3).
+pawn_attack_geom(black, h4, g3).
+pawn_attack_geom(white, h5, undefined6).
+pawn_attack_geom(white, h5, g6).
+pawn_attack_geom(black, h5, undefined4).
+pawn_attack_geom(black, h5, g4).
+pawn_attack_geom(white, h6, undefined7).
+pawn_attack_geom(white, h6, g7).
+pawn_attack_geom(black, h6, undefined5).
+pawn_attack_geom(black, h6, g5).
+pawn_attack_geom(white, h7, undefined8).
+pawn_attack_geom(white, h7, g8).
+pawn_attack_geom(black, h7, undefined6).
+pawn_attack_geom(black, h7, g6).
+
+% --- king attack geom ---
+% king_attack_geom(e4, e5).
+% king_attack_geom(e4, f5).
+% king_attack_geom(e4, f4).
+king_attack_geom(a1, b1).
+king_attack_geom(a1, a2).
+king_attack_geom(a1, b2).
+king_attack_geom(a2, b2).
+king_attack_geom(a2, a3).
+king_attack_geom(a2, a1).
+king_attack_geom(a2, b3).
+king_attack_geom(a2, b1).
+king_attack_geom(a3, b3).
+king_attack_geom(a3, a4).
+king_attack_geom(a3, a2).
+king_attack_geom(a3, b4).
+king_attack_geom(a3, b2).
+king_attack_geom(a4, b4).
+king_attack_geom(a4, a5).
+king_attack_geom(a4, a3).
+king_attack_geom(a4, b5).
+king_attack_geom(a4, b3).
+king_attack_geom(a5, b5).
+king_attack_geom(a5, a6).
+king_attack_geom(a5, a4).
+king_attack_geom(a5, b6).
+king_attack_geom(a5, b4).
+king_attack_geom(a6, b6).
+king_attack_geom(a6, a7).
+king_attack_geom(a6, a5).
+king_attack_geom(a6, b7).
+king_attack_geom(a6, b5).
+king_attack_geom(a7, b7).
+king_attack_geom(a7, a8).
+king_attack_geom(a7, a6).
+king_attack_geom(a7, b8).
+king_attack_geom(a7, b6).
+king_attack_geom(a8, b8).
+king_attack_geom(a8, a7).
+king_attack_geom(a8, b7).
+king_attack_geom(b1, c1).
+king_attack_geom(b1, a1).
+king_attack_geom(b1, b2).
+king_attack_geom(b1, c2).
+king_attack_geom(b1, a2).
+king_attack_geom(b2, c2).
+king_attack_geom(b2, a2).
+king_attack_geom(b2, b3).
+king_attack_geom(b2, b1).
+king_attack_geom(b2, c3).
+king_attack_geom(b2, c1).
+king_attack_geom(b2, a3).
+king_attack_geom(b2, a1).
+king_attack_geom(b3, c3).
+king_attack_geom(b3, a3).
+king_attack_geom(b3, b4).
+king_attack_geom(b3, b2).
+king_attack_geom(b3, c4).
+king_attack_geom(b3, c2).
+king_attack_geom(b3, a4).
+king_attack_geom(b3, a2).
+king_attack_geom(b4, c4).
+king_attack_geom(b4, a4).
+king_attack_geom(b4, b5).
+king_attack_geom(b4, b3).
+king_attack_geom(b4, c5).
+king_attack_geom(b4, c3).
+king_attack_geom(b4, a5).
+king_attack_geom(b4, a3).
+king_attack_geom(b5, c5).
+king_attack_geom(b5, a5).
+king_attack_geom(b5, b6).
+king_attack_geom(b5, b4).
+king_attack_geom(b5, c6).
+king_attack_geom(b5, c4).
+king_attack_geom(b5, a6).
+king_attack_geom(b5, a4).
+king_attack_geom(b6, c6).
+king_attack_geom(b6, a6).
+king_attack_geom(b6, b7).
+king_attack_geom(b6, b5).
+king_attack_geom(b6, c7).
+king_attack_geom(b6, c5).
+king_attack_geom(b6, a7).
+king_attack_geom(b6, a5).
+king_attack_geom(b7, c7).
+king_attack_geom(b7, a7).
+king_attack_geom(b7, b8).
+king_attack_geom(b7, b6).
+king_attack_geom(b7, c8).
+king_attack_geom(b7, c6).
+king_attack_geom(b7, a8).
+king_attack_geom(b7, a6).
+king_attack_geom(b8, c8).
+king_attack_geom(b8, a8).
+king_attack_geom(b8, b7).
+king_attack_geom(b8, c7).
+king_attack_geom(b8, a7).
+king_attack_geom(c1, d1).
+king_attack_geom(c1, b1).
+king_attack_geom(c1, c2).
+king_attack_geom(c1, d2).
+king_attack_geom(c1, b2).
+king_attack_geom(c2, d2).
+king_attack_geom(c2, b2).
+king_attack_geom(c2, c3).
+king_attack_geom(c2, c1).
+king_attack_geom(c2, d3).
+king_attack_geom(c2, d1).
+king_attack_geom(c2, b3).
+king_attack_geom(c2, b1).
+king_attack_geom(c3, d3).
+king_attack_geom(c3, b3).
+king_attack_geom(c3, c4).
+king_attack_geom(c3, c2).
+king_attack_geom(c3, d4).
+king_attack_geom(c3, d2).
+king_attack_geom(c3, b4).
+king_attack_geom(c3, b2).
+king_attack_geom(c4, d4).
+king_attack_geom(c4, b4).
+king_attack_geom(c4, c5).
+king_attack_geom(c4, c3).
+king_attack_geom(c4, d5).
+king_attack_geom(c4, d3).
+king_attack_geom(c4, b5).
+king_attack_geom(c4, b3).
+king_attack_geom(c5, d5).
+king_attack_geom(c5, b5).
+king_attack_geom(c5, c6).
+king_attack_geom(c5, c4).
+king_attack_geom(c5, d6).
+king_attack_geom(c5, d4).
+king_attack_geom(c5, b6).
+king_attack_geom(c5, b4).
+king_attack_geom(c6, d6).
+king_attack_geom(c6, b6).
+king_attack_geom(c6, c7).
+king_attack_geom(c6, c5).
+king_attack_geom(c6, d7).
+king_attack_geom(c6, d5).
+king_attack_geom(c6, b7).
+king_attack_geom(c6, b5).
+king_attack_geom(c7, d7).
+king_attack_geom(c7, b7).
+king_attack_geom(c7, c8).
+king_attack_geom(c7, c6).
+king_attack_geom(c7, d8).
+king_attack_geom(c7, d6).
+king_attack_geom(c7, b8).
+king_attack_geom(c7, b6).
+king_attack_geom(c8, d8).
+king_attack_geom(c8, b8).
+king_attack_geom(c8, c7).
+king_attack_geom(c8, d7).
+king_attack_geom(c8, b7).
+king_attack_geom(d1, e1).
+king_attack_geom(d1, c1).
+king_attack_geom(d1, d2).
+king_attack_geom(d1, e2).
+king_attack_geom(d1, c2).
+king_attack_geom(d2, e2).
+king_attack_geom(d2, c2).
+king_attack_geom(d2, d3).
+king_attack_geom(d2, d1).
+king_attack_geom(d2, e3).
+king_attack_geom(d2, e1).
+king_attack_geom(d2, c3).
+king_attack_geom(d2, c1).
+king_attack_geom(d3, e3).
+king_attack_geom(d3, c3).
+king_attack_geom(d3, d4).
+king_attack_geom(d3, d2).
+king_attack_geom(d3, e4).
+king_attack_geom(d3, e2).
+king_attack_geom(d3, c4).
+king_attack_geom(d3, c2).
+king_attack_geom(d4, e4).
+king_attack_geom(d4, c4).
+king_attack_geom(d4, d5).
+king_attack_geom(d4, d3).
+king_attack_geom(d4, e5).
+king_attack_geom(d4, e3).
+king_attack_geom(d4, c5).
+king_attack_geom(d4, c3).
+king_attack_geom(d5, e5).
+king_attack_geom(d5, c5).
+king_attack_geom(d5, d6).
+king_attack_geom(d5, d4).
+king_attack_geom(d5, e6).
+king_attack_geom(d5, e4).
+king_attack_geom(d5, c6).
+king_attack_geom(d5, c4).
+king_attack_geom(d6, e6).
+king_attack_geom(d6, c6).
+king_attack_geom(d6, d7).
+king_attack_geom(d6, d5).
+king_attack_geom(d6, e7).
+king_attack_geom(d6, e5).
+king_attack_geom(d6, c7).
+king_attack_geom(d6, c5).
+king_attack_geom(d7, e7).
+king_attack_geom(d7, c7).
+king_attack_geom(d7, d8).
+king_attack_geom(d7, d6).
+king_attack_geom(d7, e8).
+king_attack_geom(d7, e6).
+king_attack_geom(d7, c8).
+king_attack_geom(d7, c6).
+king_attack_geom(d8, e8).
+king_attack_geom(d8, c8).
+king_attack_geom(d8, d7).
+king_attack_geom(d8, e7).
+king_attack_geom(d8, c7).
+king_attack_geom(e1, f1).
+king_attack_geom(e1, d1).
+king_attack_geom(e1, e2).
+king_attack_geom(e1, f2).
+king_attack_geom(e1, d2).
+king_attack_geom(e2, f2).
+king_attack_geom(e2, d2).
+king_attack_geom(e2, e3).
+king_attack_geom(e2, e1).
+king_attack_geom(e2, f3).
+king_attack_geom(e2, f1).
+king_attack_geom(e2, d3).
+king_attack_geom(e2, d1).
+king_attack_geom(e3, f3).
+king_attack_geom(e3, d3).
+king_attack_geom(e3, e4).
+king_attack_geom(e3, e2).
+king_attack_geom(e3, f4).
+king_attack_geom(e3, f2).
+king_attack_geom(e3, d4).
+king_attack_geom(e3, d2).
+king_attack_geom(e4, f4).
+king_attack_geom(e4, d4).
+king_attack_geom(e4, e5).
+king_attack_geom(e4, e3).
+king_attack_geom(e4, f5).
+king_attack_geom(e4, f3).
+king_attack_geom(e4, d5).
+king_attack_geom(e4, d3).
+king_attack_geom(e5, f5).
+king_attack_geom(e5, d5).
+king_attack_geom(e5, e6).
+king_attack_geom(e5, e4).
+king_attack_geom(e5, f6).
+king_attack_geom(e5, f4).
+king_attack_geom(e5, d6).
+king_attack_geom(e5, d4).
+king_attack_geom(e6, f6).
+king_attack_geom(e6, d6).
+king_attack_geom(e6, e7).
+king_attack_geom(e6, e5).
+king_attack_geom(e6, f7).
+king_attack_geom(e6, f5).
+king_attack_geom(e6, d7).
+king_attack_geom(e6, d5).
+king_attack_geom(e7, f7).
+king_attack_geom(e7, d7).
+king_attack_geom(e7, e8).
+king_attack_geom(e7, e6).
+king_attack_geom(e7, f8).
+king_attack_geom(e7, f6).
+king_attack_geom(e7, d8).
+king_attack_geom(e7, d6).
+king_attack_geom(e8, f8).
+king_attack_geom(e8, d8).
+king_attack_geom(e8, e7).
+king_attack_geom(e8, f7).
+king_attack_geom(e8, d7).
+king_attack_geom(f1, g1).
+king_attack_geom(f1, e1).
+king_attack_geom(f1, f2).
+king_attack_geom(f1, g2).
+king_attack_geom(f1, e2).
+king_attack_geom(f2, g2).
+king_attack_geom(f2, e2).
+king_attack_geom(f2, f3).
+king_attack_geom(f2, f1).
+king_attack_geom(f2, g3).
+king_attack_geom(f2, g1).
+king_attack_geom(f2, e3).
+king_attack_geom(f2, e1).
+king_attack_geom(f3, g3).
+king_attack_geom(f3, e3).
+king_attack_geom(f3, f4).
+king_attack_geom(f3, f2).
+king_attack_geom(f3, g4).
+king_attack_geom(f3, g2).
+king_attack_geom(f3, e4).
+king_attack_geom(f3, e2).
+king_attack_geom(f4, g4).
+king_attack_geom(f4, e4).
+king_attack_geom(f4, f5).
+king_attack_geom(f4, f3).
+king_attack_geom(f4, g5).
+king_attack_geom(f4, g3).
+king_attack_geom(f4, e5).
+king_attack_geom(f4, e3).
+king_attack_geom(f5, g5).
+king_attack_geom(f5, e5).
+king_attack_geom(f5, f6).
+king_attack_geom(f5, f4).
+king_attack_geom(f5, g6).
+king_attack_geom(f5, g4).
+king_attack_geom(f5, e6).
+king_attack_geom(f5, e4).
+king_attack_geom(f6, g6).
+king_attack_geom(f6, e6).
+king_attack_geom(f6, f7).
+king_attack_geom(f6, f5).
+king_attack_geom(f6, g7).
+king_attack_geom(f6, g5).
+king_attack_geom(f6, e7).
+king_attack_geom(f6, e5).
+king_attack_geom(f7, g7).
+king_attack_geom(f7, e7).
+king_attack_geom(f7, f8).
+king_attack_geom(f7, f6).
+king_attack_geom(f7, g8).
+king_attack_geom(f7, g6).
+king_attack_geom(f7, e8).
+king_attack_geom(f7, e6).
+king_attack_geom(f8, g8).
+king_attack_geom(f8, e8).
+king_attack_geom(f8, f7).
+king_attack_geom(f8, g7).
+king_attack_geom(f8, e7).
+king_attack_geom(g1, h1).
+king_attack_geom(g1, f1).
+king_attack_geom(g1, g2).
+king_attack_geom(g1, h2).
+king_attack_geom(g1, f2).
+king_attack_geom(g2, h2).
+king_attack_geom(g2, f2).
+king_attack_geom(g2, g3).
+king_attack_geom(g2, g1).
+king_attack_geom(g2, h3).
+king_attack_geom(g2, h1).
+king_attack_geom(g2, f3).
+king_attack_geom(g2, f1).
+king_attack_geom(g3, h3).
+king_attack_geom(g3, f3).
+king_attack_geom(g3, g4).
+king_attack_geom(g3, g2).
+king_attack_geom(g3, h4).
+king_attack_geom(g3, h2).
+king_attack_geom(g3, f4).
+king_attack_geom(g3, f2).
+king_attack_geom(g4, h4).
+king_attack_geom(g4, f4).
+king_attack_geom(g4, g5).
+king_attack_geom(g4, g3).
+king_attack_geom(g4, h5).
+king_attack_geom(g4, h3).
+king_attack_geom(g4, f5).
+king_attack_geom(g4, f3).
+king_attack_geom(g5, h5).
+king_attack_geom(g5, f5).
+king_attack_geom(g5, g6).
+king_attack_geom(g5, g4).
+king_attack_geom(g5, h6).
+king_attack_geom(g5, h4).
+king_attack_geom(g5, f6).
+king_attack_geom(g5, f4).
+king_attack_geom(g6, h6).
+king_attack_geom(g6, f6).
+king_attack_geom(g6, g7).
+king_attack_geom(g6, g5).
+king_attack_geom(g6, h7).
+king_attack_geom(g6, h5).
+king_attack_geom(g6, f7).
+king_attack_geom(g6, f5).
+king_attack_geom(g7, h7).
+king_attack_geom(g7, f7).
+king_attack_geom(g7, g8).
+king_attack_geom(g7, g6).
+king_attack_geom(g7, h8).
+king_attack_geom(g7, h6).
+king_attack_geom(g7, f8).
+king_attack_geom(g7, f6).
+king_attack_geom(g8, h8).
+king_attack_geom(g8, f8).
+king_attack_geom(g8, g7).
+king_attack_geom(g8, h7).
+king_attack_geom(g8, f7).
+king_attack_geom(h1, g1).
+king_attack_geom(h1, h2).
+king_attack_geom(h1, g2).
+king_attack_geom(h2, g2).
+king_attack_geom(h2, h3).
+king_attack_geom(h2, h1).
+king_attack_geom(h2, g3).
+king_attack_geom(h2, g1).
+king_attack_geom(h3, g3).
+king_attack_geom(h3, h4).
+king_attack_geom(h3, h2).
+king_attack_geom(h3, g4).
+king_attack_geom(h3, g2).
+king_attack_geom(h4, g4).
+king_attack_geom(h4, h5).
+king_attack_geom(h4, h3).
+king_attack_geom(h4, g5).
+king_attack_geom(h4, g3).
+king_attack_geom(h5, g5).
+king_attack_geom(h5, h6).
+king_attack_geom(h5, h4).
+king_attack_geom(h5, g6).
+king_attack_geom(h5, g4).
+king_attack_geom(h6, g6).
+king_attack_geom(h6, h7).
+king_attack_geom(h6, h5).
+king_attack_geom(h6, g7).
+king_attack_geom(h6, g5).
+king_attack_geom(h7, g7).
+king_attack_geom(h7, h8).
+king_attack_geom(h7, h6).
+king_attack_geom(h7, g8).
+king_attack_geom(h7, g6).
+king_attack_geom(h8, g8).
+king_attack_geom(h8, h7).
+king_attack_geom(h8, g7).
+
+
+% --- knight attack geom ---
+% knight_attack_geom(e4, f6).
+% knight_attack_geom(e4, g5).
+% knight_attack_geom(e4, g3).
+% knight_attack_geom(e4, f2).
+% knight_attack_geom(e4, d2).
+% knight_attack_geom(e4, c3).
+% knight_attack_geom(e4, c5).
+% knight_attack_geom(e4, d6).
+knight_attack_geom(a1, c2).
+knight_attack_geom(a1, b3).
+knight_attack_geom(a2, c3).
+knight_attack_geom(a2, b4).
+knight_attack_geom(a2, c1).
+knight_attack_geom(a3, c4).
+knight_attack_geom(a3, b5).
+knight_attack_geom(a3, b1).
+knight_attack_geom(a3, c2).
+knight_attack_geom(a4, c5).
+knight_attack_geom(a4, b6).
+knight_attack_geom(a4, b2).
+knight_attack_geom(a4, c3).
+knight_attack_geom(a5, c6).
+knight_attack_geom(a5, b7).
+knight_attack_geom(a5, b3).
+knight_attack_geom(a5, c4).
+knight_attack_geom(a6, c7).
+knight_attack_geom(a6, b8).
+knight_attack_geom(a6, b4).
+knight_attack_geom(a6, c5).
+knight_attack_geom(a7, c8).
+knight_attack_geom(a7, b5).
+knight_attack_geom(a7, c6).
+knight_attack_geom(a8, b6).
+knight_attack_geom(a8, c7).
+knight_attack_geom(b1, d2).
+knight_attack_geom(b1, c3).
+knight_attack_geom(b1, a3).
+knight_attack_geom(b2, d3).
+knight_attack_geom(b2, c4).
+knight_attack_geom(b2, a4).
+knight_attack_geom(b2, d1).
+knight_attack_geom(b3, d4).
+knight_attack_geom(b3, c5).
+knight_attack_geom(b3, c1).
+knight_attack_geom(b3, a5).
+knight_attack_geom(b3, a1).
+knight_attack_geom(b3, d2).
+knight_attack_geom(b4, d5).
+knight_attack_geom(b4, c6).
+knight_attack_geom(b4, c2).
+knight_attack_geom(b4, a6).
+knight_attack_geom(b4, a2).
+knight_attack_geom(b4, d3).
+knight_attack_geom(b5, d6).
+knight_attack_geom(b5, c7).
+knight_attack_geom(b5, c3).
+knight_attack_geom(b5, a7).
+knight_attack_geom(b5, a3).
+knight_attack_geom(b5, d4).
+knight_attack_geom(b6, d7).
+knight_attack_geom(b6, c8).
+knight_attack_geom(b6, c4).
+knight_attack_geom(b6, a8).
+knight_attack_geom(b6, a4).
+knight_attack_geom(b6, d5).
+knight_attack_geom(b7, d8).
+knight_attack_geom(b7, c5).
+knight_attack_geom(b7, a5).
+knight_attack_geom(b7, d6).
+knight_attack_geom(b8, c6).
+knight_attack_geom(b8, a6).
+knight_attack_geom(b8, d7).
+knight_attack_geom(c1, e2).
+knight_attack_geom(c1, a2).
+knight_attack_geom(c1, d3).
+knight_attack_geom(c1, b3).
+knight_attack_geom(c2, e3).
+knight_attack_geom(c2, a3).
+knight_attack_geom(c2, d4).
+knight_attack_geom(c2, b4).
+knight_attack_geom(c2, e1).
+knight_attack_geom(c2, a1).
+knight_attack_geom(c3, e4).
+knight_attack_geom(c3, a4).
+knight_attack_geom(c3, d5).
+knight_attack_geom(c3, d1).
+knight_attack_geom(c3, b5).
+knight_attack_geom(c3, b1).
+knight_attack_geom(c3, e2).
+knight_attack_geom(c3, a2).
+knight_attack_geom(c4, e5).
+knight_attack_geom(c4, a5).
+knight_attack_geom(c4, d6).
+knight_attack_geom(c4, d2).
+knight_attack_geom(c4, b6).
+knight_attack_geom(c4, b2).
+knight_attack_geom(c4, e3).
+knight_attack_geom(c4, a3).
+knight_attack_geom(c5, e6).
+knight_attack_geom(c5, a6).
+knight_attack_geom(c5, d7).
+knight_attack_geom(c5, d3).
+knight_attack_geom(c5, b7).
+knight_attack_geom(c5, b3).
+knight_attack_geom(c5, e4).
+knight_attack_geom(c5, a4).
+knight_attack_geom(c6, e7).
+knight_attack_geom(c6, a7).
+knight_attack_geom(c6, d8).
+knight_attack_geom(c6, d4).
+knight_attack_geom(c6, b8).
+knight_attack_geom(c6, b4).
+knight_attack_geom(c6, e5).
+knight_attack_geom(c6, a5).
+knight_attack_geom(c7, e8).
+knight_attack_geom(c7, a8).
+knight_attack_geom(c7, d5).
+knight_attack_geom(c7, b5).
+knight_attack_geom(c7, e6).
+knight_attack_geom(c7, a6).
+knight_attack_geom(c8, d6).
+knight_attack_geom(c8, b6).
+knight_attack_geom(c8, e7).
+knight_attack_geom(c8, a7).
+knight_attack_geom(d1, f2).
+knight_attack_geom(d1, b2).
+knight_attack_geom(d1, e3).
+knight_attack_geom(d1, c3).
+knight_attack_geom(d2, f3).
+knight_attack_geom(d2, b3).
+knight_attack_geom(d2, e4).
+knight_attack_geom(d2, c4).
+knight_attack_geom(d2, f1).
+knight_attack_geom(d2, b1).
+knight_attack_geom(d3, f4).
+knight_attack_geom(d3, b4).
+knight_attack_geom(d3, e5).
+knight_attack_geom(d3, e1).
+knight_attack_geom(d3, c5).
+knight_attack_geom(d3, c1).
+knight_attack_geom(d3, f2).
+knight_attack_geom(d3, b2).
+knight_attack_geom(d4, f5).
+knight_attack_geom(d4, b5).
+knight_attack_geom(d4, e6).
+knight_attack_geom(d4, e2).
+knight_attack_geom(d4, c6).
+knight_attack_geom(d4, c2).
+knight_attack_geom(d4, f3).
+knight_attack_geom(d4, b3).
+knight_attack_geom(d5, f6).
+knight_attack_geom(d5, b6).
+knight_attack_geom(d5, e7).
+knight_attack_geom(d5, e3).
+knight_attack_geom(d5, c7).
+knight_attack_geom(d5, c3).
+knight_attack_geom(d5, f4).
+knight_attack_geom(d5, b4).
+knight_attack_geom(d6, f7).
+knight_attack_geom(d6, b7).
+knight_attack_geom(d6, e8).
+knight_attack_geom(d6, e4).
+knight_attack_geom(d6, c8).
+knight_attack_geom(d6, c4).
+knight_attack_geom(d6, f5).
+knight_attack_geom(d6, b5).
+knight_attack_geom(d7, f8).
+knight_attack_geom(d7, b8).
+knight_attack_geom(d7, e5).
+knight_attack_geom(d7, c5).
+knight_attack_geom(d7, f6).
+knight_attack_geom(d7, b6).
+knight_attack_geom(d8, e6).
+knight_attack_geom(d8, c6).
+knight_attack_geom(d8, f7).
+knight_attack_geom(d8, b7).
+knight_attack_geom(e1, g2).
+knight_attack_geom(e1, c2).
+knight_attack_geom(e1, f3).
+knight_attack_geom(e1, d3).
+knight_attack_geom(e2, g3).
+knight_attack_geom(e2, c3).
+knight_attack_geom(e2, f4).
+knight_attack_geom(e2, d4).
+knight_attack_geom(e2, g1).
+knight_attack_geom(e2, c1).
+knight_attack_geom(e3, g4).
+knight_attack_geom(e3, c4).
+knight_attack_geom(e3, f5).
+knight_attack_geom(e3, f1).
+knight_attack_geom(e3, d5).
+knight_attack_geom(e3, d1).
+knight_attack_geom(e3, g2).
+knight_attack_geom(e3, c2).
+knight_attack_geom(e4, g5).
+knight_attack_geom(e4, c5).
+knight_attack_geom(e4, f6).
+knight_attack_geom(e4, f2).
+knight_attack_geom(e4, d6).
+knight_attack_geom(e4, d2).
+knight_attack_geom(e4, g3).
+knight_attack_geom(e4, c3).
+knight_attack_geom(e5, g6).
+knight_attack_geom(e5, c6).
+knight_attack_geom(e5, f7).
+knight_attack_geom(e5, f3).
+knight_attack_geom(e5, d7).
+knight_attack_geom(e5, d3).
+knight_attack_geom(e5, g4).
+knight_attack_geom(e5, c4).
+knight_attack_geom(e6, g7).
+knight_attack_geom(e6, c7).
+knight_attack_geom(e6, f8).
+knight_attack_geom(e6, f4).
+knight_attack_geom(e6, d8).
+knight_attack_geom(e6, d4).
+knight_attack_geom(e6, g5).
+knight_attack_geom(e6, c5).
+knight_attack_geom(e7, g8).
+knight_attack_geom(e7, c8).
+knight_attack_geom(e7, f5).
+knight_attack_geom(e7, d5).
+knight_attack_geom(e7, g6).
+knight_attack_geom(e7, c6).
+knight_attack_geom(e8, f6).
+knight_attack_geom(e8, d6).
+knight_attack_geom(e8, g7).
+knight_attack_geom(e8, c7).
+knight_attack_geom(f1, h2).
+knight_attack_geom(f1, d2).
+knight_attack_geom(f1, g3).
+knight_attack_geom(f1, e3).
+knight_attack_geom(f2, h3).
+knight_attack_geom(f2, d3).
+knight_attack_geom(f2, g4).
+knight_attack_geom(f2, e4).
+knight_attack_geom(f2, h1).
+knight_attack_geom(f2, d1).
+knight_attack_geom(f3, h4).
+knight_attack_geom(f3, d4).
+knight_attack_geom(f3, g5).
+knight_attack_geom(f3, g1).
+knight_attack_geom(f3, e5).
+knight_attack_geom(f3, e1).
+knight_attack_geom(f3, h2).
+knight_attack_geom(f3, d2).
+knight_attack_geom(f4, h5).
+knight_attack_geom(f4, d5).
+knight_attack_geom(f4, g6).
+knight_attack_geom(f4, g2).
+knight_attack_geom(f4, e6).
+knight_attack_geom(f4, e2).
+knight_attack_geom(f4, h3).
+knight_attack_geom(f4, d3).
+knight_attack_geom(f5, h6).
+knight_attack_geom(f5, d6).
+knight_attack_geom(f5, g7).
+knight_attack_geom(f5, g3).
+knight_attack_geom(f5, e7).
+knight_attack_geom(f5, e3).
+knight_attack_geom(f5, h4).
+knight_attack_geom(f5, d4).
+knight_attack_geom(f6, h7).
+knight_attack_geom(f6, d7).
+knight_attack_geom(f6, g8).
+knight_attack_geom(f6, g4).
+knight_attack_geom(f6, e8).
+knight_attack_geom(f6, e4).
+knight_attack_geom(f6, h5).
+knight_attack_geom(f6, d5).
+knight_attack_geom(f7, h8).
+knight_attack_geom(f7, d8).
+knight_attack_geom(f7, g5).
+knight_attack_geom(f7, e5).
+knight_attack_geom(f7, h6).
+knight_attack_geom(f7, d6).
+knight_attack_geom(f8, g6).
+knight_attack_geom(f8, e6).
+knight_attack_geom(f8, h7).
+knight_attack_geom(f8, d7).
+knight_attack_geom(g1, e2).
+knight_attack_geom(g1, h3).
+knight_attack_geom(g1, f3).
+knight_attack_geom(g2, e3).
+knight_attack_geom(g2, h4).
+knight_attack_geom(g2, f4).
+knight_attack_geom(g2, e1).
+knight_attack_geom(g3, e4).
+knight_attack_geom(g3, h5).
+knight_attack_geom(g3, h1).
+knight_attack_geom(g3, f5).
+knight_attack_geom(g3, f1).
+knight_attack_geom(g3, e2).
+knight_attack_geom(g4, e5).
+knight_attack_geom(g4, h6).
+knight_attack_geom(g4, h2).
+knight_attack_geom(g4, f6).
+knight_attack_geom(g4, f2).
+knight_attack_geom(g4, e3).
+knight_attack_geom(g5, e6).
+knight_attack_geom(g5, h7).
+knight_attack_geom(g5, h3).
+knight_attack_geom(g5, f7).
+knight_attack_geom(g5, f3).
+knight_attack_geom(g5, e4).
+knight_attack_geom(g6, e7).
+knight_attack_geom(g6, h8).
+knight_attack_geom(g6, h4).
+knight_attack_geom(g6, f8).
+knight_attack_geom(g6, f4).
+knight_attack_geom(g6, e5).
+knight_attack_geom(g7, e8).
+knight_attack_geom(g7, h5).
+knight_attack_geom(g7, f5).
+knight_attack_geom(g7, e6).
+knight_attack_geom(g8, h6).
+knight_attack_geom(g8, f6).
+knight_attack_geom(g8, e7).
+knight_attack_geom(h1, f2).
+knight_attack_geom(h1, g3).
+knight_attack_geom(h2, f3).
+knight_attack_geom(h2, g4).
+knight_attack_geom(h2, f1).
+knight_attack_geom(h3, f4).
+knight_attack_geom(h3, g5).
+knight_attack_geom(h3, g1).
+knight_attack_geom(h3, f2).
+knight_attack_geom(h4, f5).
+knight_attack_geom(h4, g6).
+knight_attack_geom(h4, g2).
+knight_attack_geom(h4, f3).
+knight_attack_geom(h5, f6).
+knight_attack_geom(h5, g7).
+knight_attack_geom(h5, g3).
+knight_attack_geom(h5, f4).
+knight_attack_geom(h6, f7).
+knight_attack_geom(h6, g8).
+knight_attack_geom(h6, g4).
+knight_attack_geom(h6, f5).
+knight_attack_geom(h7, f8).
+knight_attack_geom(h7, g5).
+knight_attack_geom(h7, f6).
+knight_attack_geom(h8, g6).
+knight_attack_geom(h8, f7).

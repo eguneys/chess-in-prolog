@@ -1,2 +1,4 @@
-how do I define knight_attack, king_attack or pawn_attack
+how do I define knight_attack, king_attack or pawn_attack, should them be pre-generated along with rook_attack and bishop_attack the same way?
+
+what is the difference between hyp_world and actually making a move like apply_world which we haven't defined before.
 

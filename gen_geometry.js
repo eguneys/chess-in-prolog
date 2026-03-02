@@ -3,6 +3,11 @@ import fs from 'fs';
 
 function init() {
 
+
+    const pawn_attack_geom = gen_pawn_attack_geom()
+    const king_attack_geom = gen_king_attack_geom()
+    const knight_attack_geom = gen_knight_attack_geom()
+
     const rook_lines = gen_rook_lines()
     const bishop_lines = gen_bishop_lines()
     const blocker_fors = gen_blocker_fors()
@@ -24,6 +29,30 @@ ${bishop_lines.map(([a, b]) => `bishop_line(${a}, ${b}).`).join('\n')}
 % blocker_for(e4, e7, e5).
 % blocker_for(e4, e7, e6).
 ${blocker_fors.map(([a, b, c]) => `blocker_for(${a}, ${b}, ${c}).`).join('\n')}
+
+
+% --- pawn attack geom ---
+% pawn_attack_geom(white, e4, d5).
+% pawn_attack_geom(white, e4, f5).
+${pawn_attack_geom.map(([color, a, b]) => `pawn_attack_geom(${color}, ${a}, ${b}).`).join('\n')}
+
+% --- king attack geom ---
+% king_attack_geom(e4, e5).
+% king_attack_geom(e4, f5).
+% king_attack_geom(e4, f4).
+${king_attack_geom.map(([a, b]) => `king_attack_geom(${a}, ${b}).`).join('\n')}
+
+
+% --- knight attack geom ---
+% knight_attack_geom(e4, f6).
+% knight_attack_geom(e4, g5).
+% knight_attack_geom(e4, g3).
+% knight_attack_geom(e4, f2).
+% knight_attack_geom(e4, d2).
+% knight_attack_geom(e4, c3).
+% knight_attack_geom(e4, c5).
+% knight_attack_geom(e4, d6).
+${knight_attack_geom.map(([a, b]) => `knight_attack_geom(${a}, ${b}).`).join('\n')}
 
 `.trim()
 
@@ -140,6 +169,58 @@ function gen_blocker_fors() {
 
 
 
+    return res
+}
+
+
+function gen_king_attack_geom() {
+    let res = []
+
+    let step = 1
+    for (let i = 0; i < 8; i++) {
+        for (let j = 0; j < 8; j++) {
+            push_if_in_bounds(res, i, j, i + step, j)
+            push_if_in_bounds(res, i, j, i - step, j)
+            push_if_in_bounds(res, i, j, i, j + step)
+            push_if_in_bounds(res, i, j, i, j - step)
+            push_if_in_bounds(res, i, j, i + step, j + step)
+            push_if_in_bounds(res, i, j, i + step, j - step)
+            push_if_in_bounds(res, i, j, i - step, j + step)
+            push_if_in_bounds(res, i, j, i - step, j - step)
+        }
+    }
+    return res
+}
+
+function gen_knight_attack_geom() {
+    let res = []
+
+    for (let i = 0; i < 8; i++) {
+        for (let j = 0; j < 8; j++) {
+            push_if_in_bounds(res, i, j, i + 2, j + 1)
+            push_if_in_bounds(res, i, j, i - 2, j + 1)
+            push_if_in_bounds(res, i, j, i + 1, j + 2)
+            push_if_in_bounds(res, i, j, i + 1, j - 2)
+            push_if_in_bounds(res, i, j, i - 1, j + 2)
+            push_if_in_bounds(res, i, j, i - 1, j - 2)
+            push_if_in_bounds(res, i, j, i + 2, j - 1)
+            push_if_in_bounds(res, i, j, i - 2, j - 1)
+        }
+    }
+    return res
+}
+
+function gen_pawn_attack_geom() {
+    let res = []
+
+    for (let i = 0; i < 8; i++) {
+        for (let j = 1; j < 7; j++) {
+            i < 8 && res.push(['white', square_name(i, j), square_name(i + 1, j + 1)])
+            i > 0 && res.push(['white', square_name(i, j), square_name(i - 1, j + 1)])
+            i < 8 && res.push(['black', square_name(i, j), square_name(i + 1, j - 1)])
+            i > 0 && res.push(['black', square_name(i, j), square_name(i - 1, j - 1)])
+        }
+    }
     return res
 }
 

@@ -1,8 +1,11 @@
 :- module(piece_at, [ 
   piece_at/4,
   base_piece_at/4,
-  base_side_to_move/2
+  base_side_to_move/2,
+  legal_move/2
   ]).
+
+:- use_module(types).
 
 
 :- dynamic base_piece_at/4.

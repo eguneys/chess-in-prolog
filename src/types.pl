@@ -1,10 +1,26 @@
-:- module(types, []).
+:- module(types, [
+  king_square/3,
+  attacked_by/3
+]).
+
 :- use_module(geometry).
 :- use_module(piece_at).
 
 
 occupies(W, S) :-
   piece_at(W, S, _, _).
+
+
+knight_attack(_W, From, To) :-
+  knight_attack_geom(From, To).
+
+king_attack(_W, From, To) :-
+  king_attack_geom(From, To).
+
+pawn_attack(W, From, To) :-
+  piece_at(W, From, pawn, Color),
+  pawn_attack_geom(From, To, Color).
+
 
 rook_attack(W, From ,To) :-
   rook_line(From, To),
@@ -56,7 +72,6 @@ stalemate(W) :-
   side_to_move(W, Color),
   \+ in_check(W, Color),
   \+ has_legal_move(W).
-
 
 
 :- table has_legal_move/1.
