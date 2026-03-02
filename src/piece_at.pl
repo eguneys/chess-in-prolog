@@ -1,6 +1,9 @@
-:- module(piece_at, [
-    piece_at/4
-]).
+:- module(piece_at, [ 
+  piece_at/4,
+  base_piece_at/4,
+  base_side_to_move/2
+  ]).
+
 
 :- dynamic base_piece_at/4.
 :- dynamic base_side_to_move/2.
@@ -20,10 +23,6 @@
 
 :- dynamic delta_halfmove_reset/1.
 :- dynamic delta_halfmove_inc/1.
-
-
-:- table piece_at/4.
-:- table in_check/2.
 
 piece_at(W, Sq, P, C) :-
   delta_add(W, Sq, P, C).
@@ -132,3 +131,9 @@ play_from_to(W, From, To, W2) :-
  assertz(delta_del, W, To, CapturedPiece, CapturedColor).
  */
 
+
+
+
+:- table piece_at/4.
+:- table in_check/2.
+:- table legal_move/2.

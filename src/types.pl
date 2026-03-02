@@ -1,6 +1,7 @@
+:- module(types, []).
+:- use_module(geometry).
 :- use_module(piece_at).
 
-:- table occupies/2.
 
 occupies(W, S) :-
   piece_at(W, S, _, _).
@@ -56,6 +57,7 @@ stalemate(W) :-
   \+ in_check(W, Color),
   \+ has_legal_move(W).
 
-:- table legal_move/2.
+
+
 :- table has_legal_move/1.
-:- table in_check/2.
+:- table occupies/2.

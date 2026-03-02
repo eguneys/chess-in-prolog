@@ -1,0 +1,2 @@
+how do I define knight_attack, king_attack or pawn_attack
+
