@@ -7,6 +7,7 @@
   in_check/2,
   empty/2,
   side_to_move/2,
+  opponent_color/2,
   gives_check/2,
   hyp_world/3,
   opposite_color/2,
@@ -65,6 +66,9 @@ piece_at(W, Sq, P, C) :-
 piece_at(root, Sq, P, C) :-
   base_piece_at(root, Sq, P, C).
 
+opponent_color(W, Color) :-
+  opposite_color(Other, Color),
+  side_to_move(W, Other).
 
 side_to_move(root, Color) :-
   base_side_to_move(root, Color).
@@ -73,6 +77,7 @@ side_to_move(W, Color) :-
  parent_of(W, P),
  side_to_move(P, Other),
  opposite_color(Other, Color).
+
 
 opposite_color(white, black).
 opposite_color(black, white).
@@ -412,7 +417,6 @@ delta_del_move(W, move(From, _To), From, P, C) :-
 
 delta_add_move(W, move(From, To), To, P, C) :-
   piece_at(W, From, P, C).
-
 
 assert_committed_deltas(W2, W, Move) :-
     forall(delta_add_move(W, Move, Sq, P, C),

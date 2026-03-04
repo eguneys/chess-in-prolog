@@ -20,7 +20,14 @@ bishop_fork(step(W, Move, W1), BishopSq, RookSq, KingSq) :-
   Move = move(BishopSq, To),
   hyp_world(W, Move, W1),
   attacks(W1, bishop, To, KingSq),
-  attacks(W1, bishop, To, RookSq).
+  attacks(W1, bishop, To, RookSq),
+  side_to_move(W1, Opp),
+  
+  \+ (piece_at(W1, AFrom, Piece, Opp),
+  lean_into(W1, AFrom, To, Opp),
+  attacks(W1, Piece, AFrom, To)).
+
+lean_into(W, A, B, C).
 
 
 bishop_fork_candidate(W, From, To, KingSq, RookSq) :-

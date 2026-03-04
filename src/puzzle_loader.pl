@@ -16,8 +16,8 @@ run_puzzle_csv(File) :-
 
 run_rows([], stats(Total, Tp, Fp, Mismatch, Promotion)) :-
   format("Total: ~w Tp/Fp: ~w/~w Mismatch: ~w Promotion: ~w~n", [Total, Tp, Fp, Mismatch, Promotion]),
-  TpFp is Tp + Fp + 1,
-  Error is (Tp / TpFp) * 100,
+  TpFp is Tp + Fp,
+  Error is (Fp / (TpFp + 0.0001)) * 100,
   Coverage is (TpFp / Total) * 100,
   format("Error: %~1f Coverage: %~1f~n", [Error, Coverage]).
 
