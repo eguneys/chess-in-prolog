@@ -1,6 +1,6 @@
 :- module(types, [
   occupies/2,
-  pawn_double_step/3,
+  pawn_double_step/4,
   king_square/3,
   attacked_by/3,
   sliding_piece/1,
@@ -61,7 +61,7 @@ king_castle_path(black, queen_side, [d8, c8]).
 
 
 
-pawn_double_step(Color, From, To) :-
+pawn_double_step(W, Color, From, To) :-
   pawn_start_rank(Color, From),
   pawn_step(Color, From, To1),
   empty(W, To1),
@@ -124,7 +124,6 @@ king_square(W, Color, Sq) :-
 
 has_legal_move(W) :-
   legal_move(W, _).
-
 
 
 checkmate(W) :-

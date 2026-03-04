@@ -5,7 +5,9 @@
   legal_move/2,
   reset_worlds/0,
   in_check/2,
-  empty/2
+  empty/2,
+  side_to_move/2,
+  gives_check/2
   ]).
 
 :- use_module(types).
@@ -53,7 +55,7 @@ piece_at(W, Sq, P, C) :-
   delta_add(W, Sq, P, C).
 
 piece_at(W, Sq, P, C) :-
-   parent(W, Parent),
+   parent_of(W, Parent),
    piece_at(Parent, Sq, P, C),
    \+ delta_del(W, Sq, P, C).
 
@@ -65,7 +67,7 @@ side_to_move(root, Color) :-
   base_side_to_move(root, Color).
 
 side_to_move(W, Color) :-
- parent(W, P),
+ parent_of(W, P),
  side_to_move(P, Other),
  opposite_color(Other, Color).
 
@@ -76,7 +78,7 @@ castle_right(root, Color, Side) :-
   base_castle_right(root, Color, Side).
 
 castle_right(W, Color, Side) :-
-  parent(W, P),
+  parent_of(W, P),
   castle_right(P, Color, Side),
   \+ delta_no_castle(W, Color, Side).
 
@@ -85,7 +87,7 @@ ep_square(W, Sq) :-
   delta_ep_add(W, Sq).
 
 ep_square(W, Sq) :-
-  parent(W, P),
+  parent_of(W, P),
   ep_square(P, Sq),
   \+ delta_ep_clear(W).
 
@@ -97,7 +99,7 @@ halfmove(W, 0) :-
   delta_halfmove_reset(W).
 
 halfmove(W, N1) :-
-  parent(W, P),
+  parent_of(W, P),
   halfmove(P, N),
   delta_halfmove_inc(W),
   N1 is N + 1.
@@ -107,11 +109,11 @@ fullmove(root, N) :-
   base_full_move(root, N).
 
 fullmove(W, N) :-
-  parent(W, P),
+  parent_of(W, P),
   fullmove(P, N).
 
 fullmove(W, N1) :-
-  parent(W, P),
+  parent_of(W, P),
   fullmove(P, N),
   side_to_move(P, black),
   side_to_move(W, white),
@@ -175,7 +177,7 @@ pseudo_legal_move(W, move(From, To)) :-
 
 pseudo_legal_move(W, move(From, To2)) :-
   piece_at(W, From, pawn, Color),
-  pawn_double_step(Color, From, To2).
+  pawn_double_step(W, Color, From, To2).
 
 pseudo_legal_move(W, move(From, To)) :-
   piece_at(W, From, pawn, _Color),
@@ -214,9 +216,8 @@ leaves_king_in_check(W, Move) :-
 hyp_king_step(W, From, To, MidWorld) :-
   hyp_world(W, move(From, To), MidWorld).
 
-hyp_world(W, Move, W2) :-
-  parent(W2, W),
-  delta_for_move(W2, Move).
+
+hyp_world(W, Move, hyp(W, Move)).
 
 in_check(W, Color) :-
   king_square(W, Color, KingSq),
@@ -224,13 +225,22 @@ in_check(W, Color) :-
   attacked_by(W, Opp, KingSq).
 
 
+gives_check(W, Move) :-
+  side_to_move(W, Color),
+  opposite_color(Color, Opp),
+  hyp_world(W, Move, W2),
+  in_check(W2, Opp).
+
+
 create_child_world(W, Move, W2) :-
   new_world_id(W2),
   record_parent(W2, W),
-  delta_for_move(W2, Move),
+  assert_committed_deltas(W2, W, Move),
   record_edge(W, Move, W2).
 
+/*
 
+delta_for_move(hyp(W, Move), W, Move).
 
 delta_for_move(W2, promote(From, To, NewPiece)) :-
   parent(W2, W),
@@ -286,7 +296,7 @@ delta_for_move(W2, castle(Color, Side)) :-
 
 
 delta_for_move(W, move(From, To)) :-
-  parent(W2, W),
+  parent_of(W2, W),
   piece_at(W, From, pawn, Color),
   ep_square(W, To),
 
@@ -304,9 +314,9 @@ delta_for_move(W, move(From, To)) :-
 
 
 delta_for_move(W, move(From, To)) :-
-  parent(W2, W),
+  parent_of(W2, W),
   piece_at(W, From, pawn, Color),
-  pawn_double_step(Color, From, To),
+  pawn_double_step(W, Color, From, To),
 
   % pawn moves
   assert(delta_del(W2, From, pawn, Color)),
@@ -320,7 +330,7 @@ delta_for_move(W, move(From, To)) :-
 
 
 delta_for_move(W, move(From, To)) :-
-  parent(W2, W),
+  parent_of(W2, W),
   piece_at(W, From, Piece, Color),
   piece_at(W, To, Captured, Opp),
   opposite_color(Color, Opp),
@@ -342,7 +352,7 @@ delta_for_move(W, move(From, To)) :-
 
 
 delta_for_move(W, move(From, To)) :-
-  parent(W2, W),
+  parent_of(W2, W),
   piece_at(W, From, Piece, Color),
 
   % piece moves
@@ -361,6 +371,7 @@ delta_for_move(W, move(From, To)) :-
   % castling rights possibly affected
   castle_deltas(W2, From, Piece, Color).
 
+*/
 
 
 castle_deltas(W2, From, king, Color) :-
@@ -380,6 +391,30 @@ castle_capture_deltas(W2, From, rook, Color) :-
   assert(delta_no_castle(W2, Color, Side)).
 
 castle_capture_deltas(_, _, _, _). % default
+
+
+delta_add(hyp(W, Move), Sq, P, C) :-
+  delta_add_move(W, Move, Sq, P, C).
+
+
+delta_del(hyp(W, Move), Sq, P, C) :-
+  delta_del_move(W, Move, Sq, P, C).
+
+
+delta_del_move(W, move(From, _To), From, P, C) :-
+  piece_at(W, From, P, C).
+
+delta_add_move(W, move(_From, To), To, P, C) :-
+  piece_at(W, To, P, C).
+
+
+assert_committed_deltas(W2, W, Move) :-
+    forall(delta_add_move(W, Move, Sq, P, C),
+           assert(delta_add(W2, Sq, P, C))),
+    forall(delta_del_move(W, Move, Sq, P, C),
+           assert(delta_del(W2, Sq, P, C))).
+
+
 
 :- table piece_at/4.
 :- table in_check/2.

@@ -86,4 +86,3 @@ load_ep('-') :- !.
   load_ep(Sq) :-
   atom_string(A, Sq),
   assert(base_ep_square(root, A)).
-

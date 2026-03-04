@@ -1,4 +1,13 @@
-:- module(node_id, [ parent/2, world_counter/1, new_world_id/1, record_edge/3, record_parent/2, record_depth/2, reset_nodes/0 ]).
+:- module(node_id, [ 
+  parent_of/2, 
+  world_counter/1, 
+  new_world_id/1, 
+  record_edge/3, 
+  record_parent/2, 
+  record_depth/2, 
+  reset_nodes/0,
+  depth/2
+  ]).
 
 :- dynamic world_counter/1.
 :- dynamic edge/3.
@@ -8,13 +17,17 @@
 
 world_counter(0).
 
+parent_of(hyp(W,_Move), W).
+parent_of(W, P) :-
+  parent(W, P).
 
 reset_nodes :-
   retractall(world_counter(_)),
   assert(world_counter(0)),
   retractall(parent(_, _)),
   retractall(edge(_, _, _)),
-  retractall(depth(_, _)).
+  retractall(depth(_, _)),
+  assert(depth(root, 0)).
 
 
 new_world_id(W) :-

@@ -5,13 +5,11 @@
 :- use_module(piece_at).
 :- use_module(node_id).
 
-
 run_test(FEN) :-
   load_fen(FEN),
   writeln("Position loaded."),
   test_check,
   test_moves.
-
 
 test_check :-
  ( in_check(root, white)
@@ -31,7 +29,6 @@ test_moves :-
   writeln(M),
   fail
   ; true ).
-
 
 
 %% perft1(+World, -Count)
