@@ -1,0 +1,28 @@
+bishop_fork_line(W0, Line) :-
+    Line = [Move1, Move2, Move3],
+
+    bishop_fork(Move1, Bishop, Rook, King),
+    king_escape(Move2, King),
+    capture(Move3, Rook),
+
+    move_sequence_over_worlds(W0, Line).
+
+
+move_sequence_over_worlds(W, []).
+move_sequence_over_worlds(W0, [Move|Rest]) :-
+    legal_move(W0, Move),
+    hyp_world(W0, Move, W1),
+    move_sequence_over_worlds(W1, Rest).
+
+
+bishop_fork(move(From,To), From, RookSq, KingSq) :-
+    bishop_move(From, To),
+    attacks(To, KingSq),
+    attacks(To, RookSq).
+
+
+tactic_schema(
+    bishop_fork,
+    [fork, king_escape, capture]
+).
+

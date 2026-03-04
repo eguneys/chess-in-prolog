@@ -22,8 +22,8 @@
 :- dynamic base_half_move/2.
 :- dynamic base_full_move/2.
 
-:- dynamic delta_del/4.
-:- dynamic delta_add/4.
+:- dynamic committed_delta_del/4.
+:- dynamic committed_delta_add/4.
 
 :- dynamic delta_no_castle/3.
 
@@ -42,8 +42,8 @@ reset_boards :-
   retractall(base_side_to_move(_, _)),
   retractall(base_castle_right(_, _, _)),
   retractall(base_half_move(_, _)),
-  retractall(delta_add(_, _, _, _)),
-  retractall(delta_del(_, _, _, _)),
+  retractall(committed_delta_add(_, _, _, _)),
+  retractall(committed_delta_del(_, _, _, _)),
   retractall(delta_no_castle(_, _, _)),
   retractall(delta_ep_add(_)),
   retractall(delta_ep_clear(_)),
@@ -396,16 +396,19 @@ castle_capture_deltas(_, _, _, _). % default
 delta_add(hyp(W, Move), Sq, P, C) :-
   delta_add_move(W, Move, Sq, P, C).
 
-
+delta_add(W, Sq, P, C) :-
+  committed_delta_add(W, Sq, P, C).
 delta_del(hyp(W, Move), Sq, P, C) :-
   delta_del_move(W, Move, Sq, P, C).
 
+delta_del(W, Sq, P, C) :-
+  committed_delta_del(W, Sq, P, C).
 
 delta_del_move(W, move(From, _To), From, P, C) :-
   piece_at(W, From, P, C).
 
-delta_add_move(W, move(_From, To), To, P, C) :-
-  piece_at(W, To, P, C).
+delta_add_move(W, move(From, To), To, P, C) :-
+  piece_at(W, From, P, C).
 
 
 assert_committed_deltas(W2, W, Move) :-
@@ -416,6 +419,6 @@ assert_committed_deltas(W2, W, Move) :-
 
 
 
-:- table piece_at/4.
-:- table in_check/2.
-:- table legal_move/2.
+% :- table piece_at/4.
+%:- table in_check/2.
+% :- table legal_move/2.

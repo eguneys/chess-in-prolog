@@ -1,0 +1,19 @@
+In order to check moves and attacks we need intermediate worlds along with the moves, so how about something like this:
+
+
+move_sequence_over_worlds(_, []).
+move_sequence_over_worlds(W0, [step(Move, W1)|Rest]) :-
+    legal_move(W0, Move),
+    hyp_world(W0, Move, W1),
+    move_sequence_over_worlds(W1, Rest).
+
+
+bishop_fork_line(W0, Line, Bishop, Rook, King) :-
+  Line = [step(Move1, W1)],
+  bishop_fork(W1, Move1, Bishop, Rook, King),
+  move_sequence_over_worlds(W0, Line).
+
+
+
+
+Also, your latest suggestion with tactic_schema wouldn't quite work immediately as I envision because, while searching lines, I would need to be able to unify which bishop forks versus which rook is captured, so they have to be told in between sequences, which is kind of hard to do automatically, I reckon.
