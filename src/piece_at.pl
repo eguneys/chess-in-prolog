@@ -7,7 +7,10 @@
   in_check/2,
   empty/2,
   side_to_move/2,
-  gives_check/2
+  gives_check/2,
+  hyp_world/3,
+  opposite_color/2,
+  create_child_world/3
   ]).
 
 :- use_module(types).
@@ -413,9 +416,9 @@ delta_add_move(W, move(From, To), To, P, C) :-
 
 assert_committed_deltas(W2, W, Move) :-
     forall(delta_add_move(W, Move, Sq, P, C),
-           assert(delta_add(W2, Sq, P, C))),
+           assert(committed_delta_add(W2, Sq, P, C))),
     forall(delta_del_move(W, Move, Sq, P, C),
-           assert(delta_del(W2, Sq, P, C))).
+           assert(committed_delta_del(W2, Sq, P, C))).
 
 
 

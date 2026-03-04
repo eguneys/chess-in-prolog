@@ -1,23 +1,32 @@
-:- module(lines, [bishop_fork_line/5]).
+:- module(lines, [bishop_fork_root/1, bishop_fork_world/2]).
 
 :- use_module(types).
 :- use_module(piece_at).
 
-move_sequence_over_worlds(_, []).
-move_sequence_over_worlds(W0, [step(W0, Move, W1)|Rest]) :-
-    legal_move(W0, Move),
-    hyp_world(W0, Move, W1),
-    move_sequence_over_worlds(W1, Rest).
-
 
 bishop_fork_line(W0, Line, Bishop, Rook, King) :-
   Line = [step(W0, Move1, W1)],
-  move_sequence_over_worlds(W0, Line),
-  bishop_fork(W1, Move1, Bishop, Rook, King).
+  bishop_fork(step(W0, Move1, W1), Bishop, Rook, King).
 
 
+bishop_fork_root(Move) :-
+  bishop_fork(step(root, Move, _), _, _, _).
 
-bishop_fork(W, move(From, To), From, RookSq, KingSq) :-
-  bishop_move(W, From, To),
-  attacks(W, To, KingSq),
-  attacks(W, To, RookSq).
+bishop_fork_world(W, Move) :-
+  bishop_fork(step(W, Move, _), _, _, _).
+
+bishop_fork(step(W, Move, W1), BishopSq, RookSq, KingSq) :-
+  bishop_fork_candidate(W, BishopSq, To, KingSq, RookSq),
+  Move = move(BishopSq, To),
+  hyp_world(W, Move, W1),
+  attacks(W1, bishop, To, KingSq),
+  attacks(W1, bishop, To, RookSq).
+
+
+bishop_fork_candidate(W, From, To, KingSq, RookSq) :-
+  side_to_move(W, Color),
+  piece_at(W, From, bishop, Color),
+  opposite_color(Color, Opp),
+  piece_at(W, KingSq, king, Opp),
+  piece_at(W, RookSq, rook, Opp),
+  bishop_attack(W, From, To).

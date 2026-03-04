@@ -1,4 +1,4 @@
-:- module(expand, [ expand/1 ]).
+:- module(expand, [ generate_child/3 ]).
 
 :- use_module(node_id).
 :- use_module(piece_at).
@@ -6,7 +6,7 @@
 
 generate_child(W, Move, W2) :-
  expand(W),
- legal_move(W, Move),
+ %legal_move(W, Move),
  create_child_world(W, Move, W2).
 
 

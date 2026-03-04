@@ -93,7 +93,7 @@ rook_attack(W, From ,To) :-
     occupies(W, Mid)
   ).
 
-bishop_attack(W, From ,To) :-
+bishop_attack(W, From, To) :-
   bishop_line(From, To),
   \+ (
     blocker_for(From, To, Mid),

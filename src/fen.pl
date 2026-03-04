@@ -1,5 +1,7 @@
 :- module(fen, [
-    load_fen/1
+    load_fen/1,
+    show_board/1,
+    parse_uci/2
 ]).
 
 :- use_module(node_id).
@@ -129,3 +131,13 @@ show_line([step(M,W)|Rest]) :-
 show_pieces(W) :-
   forall(piece_at(W,Sq,P,C),
     (write(C-P), write(@), write(Sq), nl)).
+
+
+parse_uci(UciStr, Move) :-
+  string_length(UciStr, 4),
+  sub_string(UciStr, 0, 2, 2, SourceStr),
+  sub_string(UciStr, 2, 2, 0, DestStr),
+  atom_string(SourceAtom, SourceStr),
+  atom_string(DestAtom, DestStr),
+
+  Move = move(SourceAtom, DestAtom).
