@@ -1,1 +1,5 @@
+0ODMI,6r1/pp2kp2/5R1p/2bpP3/7P/6B1/PP3PP1/2K5 w - - 0 27,f6h6 g8g3 f2g3 c5e3 c1d1 e3h6,1488,73,95,27349,advantage endgame fork long sacrifice,https://lichess.org/9vMCUGbN#53,
 000rO,3R4/8/K7/pB2b3/1p6/1P2k3/3p4/8 w - - 4 58,a6a5 e5c7 a5b4 c7d8,1075,81,85,68,crushing endgame fork master short,https://lichess.org/tzeeBEc2#115,
+001gi,r6r/1pNk1ppp/2np4/b3p3/4P1b1/N1Q5/P4PPP/R3KB1R w KQ - 3 18,c7a8 a5c3,823,120,62,246,bodenMate hangingPiece mate mateIn1 middlegame oneMove,https://lichess.org/1sV2Hr22#35,Sicilian_Defense Sicilian_Defense_Other_variations
+003YF,r4rk1/1pp2ppp/p2p4/2bPp3/2P1Pn1q/P1N2B2/1P3P2/R1BQK1R1 w Q - 1 15,c1f4 h4f2,1103,89,78,64,attackingF2F7 mate mateIn1 middlegame oneMove,https://lichess.org/5DK4vDDB#29,Mexican_Defense Mexican_Defense_Other_variations
+003md,r1b1k2N/ppp3pp/2n5/2bp4/7q/1B4n1/PPPP1P1P/RNBQ1RK1 w q - 0 10,f1e1 g3e4 e1e4 d5e4 d1h5 h4h5 b3f7 h5f7,2124,79,84,207,crushing defensiveMove middlegame veryLong,https://lichess.org/ALtR2fxT#19,Russian_Game Russian_Game_Italian_Variation

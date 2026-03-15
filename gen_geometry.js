@@ -36,7 +36,7 @@ ${blocker_fors.map(([a, b, c]) => `blocker_for(${a}, ${b}, ${c}).`).join('\n')}
 % --- pawn attack geom ---
 % pawn_attack_geom(white, e4, d5).
 % pawn_attack_geom(white, e4, f5).
-${pawn_attack_geom.map(([color, a, b]) => `pawn_attack_geom(${color}, ${a}, ${b}).`).join('\n')}
+${pawn_attack_geom.map(([color, a, b]) => `pawn_attack_geom(${a}, ${b}, ${color}).`).join('\n')}
 
 % --- king attack geom ---
 % king_attack_geom(e4, e5).
@@ -61,7 +61,7 @@ ${knight_attack_geom.map(([a, b]) => `knight_attack_geom(${a}, ${b}).`).join('\n
 % --- pawn step ---
 % pawn_step(white, e2, e3).
 % pawn_step(black, e7, e6).
-${pawn_step.map(([color, a, b]) => `pawn_step(${color}, ${a}, ${b}).`).join('\n')}
+${pawn_step.map(([color, a, b]) => `pawn_step(${a}, ${b}, ${color}).`).join('\n')}
 
 
 `.trim()

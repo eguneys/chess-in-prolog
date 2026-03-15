@@ -32,11 +32,12 @@ run_rows([Row|Rs], stats(T0, Tp, Fp, Mismatch, Promotion)) :-
     (Cat = notok,
     Fp < 8)
    ->
+    Row =.. [_|[Id|_]],
     write(T1),
     write(' '),
     write(Cat),
     write(' '),
-    write(Row),
+    format('https://lichess.org/training/~w', [Id]),
     nl
     ; true
   ),

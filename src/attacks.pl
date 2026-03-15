@@ -1,0 +1,142 @@
+:- module(attacks, [
+    opposite/2,
+    side_to_move/2,
+    piece_at/4,
+    opposite_side/2,
+    pawn_start_rank/2,
+    king_start/2,
+    rook_start/3,
+    king_castle_to/3,
+    rook_castle_to/3,
+    king_castle_path/3,
+    sliding_piece/1,
+    pawn_double_step/4,
+    occupies/2,
+    empty/2,
+    knight_attack/2,
+    king_attack/2,
+    pawn_attack/3,
+    rook_attack/3,
+    bishop_attack/3,
+    queen_attack/3,
+    attacks/4,
+    king_square/3
+]).
+
+:- use_module(geometry).
+:- use_module(positions).
+
+opposite(white, black).
+opposite(black, white).
+
+side_to_move(W, Color) :-
+  base_side_to_move(W, Color).
+
+piece_at(W, From, Color, Role) :-
+  base_piece_at(W, From, Color, Role).
+
+
+piece_at(hyp_off(W, FromExclude), From, Color, Role) :-
+  From \= FromExclude,
+  piece_at(W, From, Color, Role).
+
+
+opposite_side(W, Color) :-
+  side_to_move(W, Opp),
+  opposite(Color, Opp).
+
+pawn_start_rank(white, a2).
+pawn_start_rank(white, b2).
+pawn_start_rank(white, c2).
+pawn_start_rank(white, d2).
+pawn_start_rank(white, e2).
+pawn_start_rank(white, f2).
+pawn_start_rank(white, g2).
+pawn_start_rank(white, h2).
+pawn_start_rank(black, a7).
+pawn_start_rank(black, b7).
+pawn_start_rank(black, c7).
+pawn_start_rank(black, d7).
+pawn_start_rank(black, e7).
+pawn_start_rank(black, f7).
+pawn_start_rank(black, g7).
+pawn_start_rank(black, h7).
+
+king_start(white, e1).
+king_start(black, e8).
+
+rook_start(white, king_side, h1).
+rook_start(white, queen_side, a1).
+rook_start(black, king_side, h8).
+rook_start(black, queen_side, a8).
+
+king_castle_to(white, king_side, g1).
+king_castle_to(white, queen_side, c1).
+king_castle_to(black, king_side, g8).
+king_castle_to(black, queen_side, c8).
+
+rook_castle_to(white, king_side, f1).
+rook_castle_to(white, queen_side, d1).
+rook_castle_to(black, king_side, f8).
+rook_castle_to(black, queen_side, d8).
+
+king_castle_path(white, king_side, [f1, g1]).
+king_castle_path(white, queen_side, [d1, c1]).
+king_castle_path(black, king_side, [f8, g8]).
+king_castle_path(black, queen_side, [d8, c8]).
+
+sliding_piece(rook).
+sliding_piece(bishop).
+sliding_piece(queen).
+
+pawn_double_step(W, Color, From, To) :-
+  pawn_start_rank(Color, From),
+  pawn_step(Color, From, To1),
+  empty(W, To1),
+  pawn_step(Color, To1, To),
+  empty(W, To).
+
+occupies(W, From) :-
+  piece_at(W, From, _, _).
+
+empty(W, From) :-
+  \+ occupies(W, From).
+
+knight_attack(From, To) :-
+  knight_attack_geom(From, To).
+
+king_attack(From, To) :-
+  king_attack_geom(From, To).
+
+pawn_attack(From, To, Color) :-
+  pawn_attack_geom(From, To, Color).
+
+rook_attack(W, From ,To) :-
+  rook_line(From, To),
+  \+ (
+    blocker_for(From, To, Mid),
+    occupies(W, Mid)
+  ).
+
+
+bishop_attack(W, From, To) :-
+  bishop_line(From, To),
+  \+ (
+    blocker_for(From, To, Mid),
+    occupies(W, Mid)
+  ).
+
+queen_attack(W, From, To) :-
+  rook_attack(W, From, To);
+  bishop_attack(W, From, To).
+
+
+attacks(W, rook, From, To) :- rook_attack(W, From, To).
+attacks(W, bishop, From, To) :- bishop_attack(W, From, To).
+attacks(W, queen, From, To) :- queen_attack(W, From, To).
+attacks(_W, knight, From, To) :- knight_attack(From, To).
+attacks(W, pawn, From, To) :- pawn_attack(W, From, To).
+attacks(_W, king, From, To) :- king_attack(From, To).
+
+king_square(W, Color, Sq) :-
+  piece_at(W, Sq, king, Color).

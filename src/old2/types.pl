@@ -141,5 +141,5 @@ sliding_piece(bishop).
 sliding_piece(queen).
 
 
-:- table has_legal_move/1.
-:- table occupies/2.
+%:- table has_legal_move/1.
+%:- table occupies/2.
