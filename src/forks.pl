@@ -13,10 +13,17 @@
   vacant_see2/4,
   attack_see2/4,
   defend_see2/4,
-  fork/5
+  fork/5,
+
+  turn_queens/2,
+  opponent_king_see/2,
+  opponent_non_king_capturable/2,
+  opponent_king_evadable/2,
+  turn_king_evadable/2
 ]).
 
 :- use_module(attacks).
+:- use_module(moves).
 
 turn(W, Role, From) :-
   side_to_move(W, Color),
@@ -40,18 +47,32 @@ attack_see(W, From, To) :-
   piece_at(W, To, Opp, _).
 
 
+vacant_or_attack_see(W, From, To) :-
+  vacant_see(W, From, To);
+  attack_see(W, From, To).
+
 defend_see(W, From, To) :-
   piece_at(W, From, Color, Piece),
   attacks(W, Piece, From, To),
   piece_at(W, To, Color, _).
 
 
-turn_kings(W, From) :- turn(W, king, _, From).
-turn_bishops(W, From) :- turn(W, bishops, _, From).
+turn_kings(W, From) :- turn(W, king, From).
+turn_bishops(W, From) :- turn(W, bishop, From).
+turn_queens(W, From) :- turn(W, queen, From).
 
 opponent_kings(W, From) :- opponent(W, king, From).
-opponent_bishops(W, From) :- opponent(W, bishops, From).
-opponent_rooks(W, From) :- opponent(W, rooks, From).
+opponent_bishops(W, From) :- opponent(W, bishop, From).
+opponent_rooks(W, From) :- opponent(W, rook, From).
+
+turn_see(W, From, To) :- turn(W, _, From), 
+attack_see(W, From, To).
+
+turn_see(W, From, To) :- turn(W, _, From), 
+defend_see(W, From, To).
+
+turn_see(W, From, To) :- turn(W, _, From), 
+vacant_see(W, From, To).
 
 
 opponent_see(W, From, To) :- opponent(W, _, From), 
@@ -92,3 +113,24 @@ fork(W, From, To, Fork_a, Fork_b) :-
   attack_see2(W, From, To, Fork_a),
   attack_see2(W, From, To, Fork_b),
   Fork_a \= Fork_b.
+
+
+opponent_king_see(W, To) :- 
+  opponent_kings(W, From),
+  opponent_see(W, From, To).
+
+
+opponent_non_king_capturable(W, To) :-
+  opponent_see(W, From, To),
+  opponent(W, Piece, From),
+  Piece \= king.
+
+opponent_king_evadable(W, To) :-
+  opponent(W, king, From),
+  vacant_or_attack_see(W, From, To),
+  \+ turn_see(W, _, To).
+
+turn_king_evadable(W, To) :-
+  turn(W, king, From),
+  vacant_or_attack_see(W, From, To),
+  \+ opponent_see(W, _, To).

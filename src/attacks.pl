@@ -1,8 +1,4 @@
 :- module(attacks, [
-    opposite/2,
-    side_to_move/2,
-    piece_at/4,
-    opposite_side/2,
     pawn_start_rank/2,
     king_start/2,
     rook_start/3,
@@ -24,26 +20,7 @@
 ]).
 
 :- use_module(geometry).
-:- use_module(positions).
-
-opposite(white, black).
-opposite(black, white).
-
-side_to_move(W, Color) :-
-  base_side_to_move(W, Color).
-
-piece_at(W, From, Color, Role) :-
-  base_piece_at(W, From, Color, Role).
-
-
-piece_at(hyp_off(W, FromExclude), From, Color, Role) :-
-  From \= FromExclude,
-  piece_at(W, From, Color, Role).
-
-
-opposite_side(W, Color) :-
-  side_to_move(W, Opp),
-  opposite(Color, Opp).
+:- use_module(moves).
 
 pawn_start_rank(white, a2).
 pawn_start_rank(white, b2).
