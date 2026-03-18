@@ -64,7 +64,13 @@ bishop_forks(W, Move, Fork_a, Fork_b, W4) :-
   \+ (
     opponent_hanging(W4, queen, HQueen),
     attack_see(W4, _, HQueen)
-  ).
+  ),
+   \+ (
+    opponent_hanging(W4, rook, HRook),
+    attack_see(W4, _, HRook)
+  )
+  
+  .
 
 
 

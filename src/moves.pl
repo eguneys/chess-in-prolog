@@ -79,5 +79,3 @@ make_move(W, move(From, To), W2) :-
   ),
   put_piece(W4, To, Color, Role, W5),
   change_side(W5, W2).
-
- 
