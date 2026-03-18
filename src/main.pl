@@ -1,8 +1,11 @@
 :- module(main, [
+    coverage2/0, 
     coverage/0, 
     show_tp/0,
     show_fp/0, 
-    show_negative/0
+    show_negative/0,
+    show_fn/0,
+    show_tn/0
     ]).
 
 :- use_module(positions).
@@ -46,34 +49,6 @@ queen_bishop_capture_evadable(W, Move, W2) :-
 
 
 
-/*
-bishop_forks(W, Move, Fork_a, Fork_b, W4) :-
-  Move = move(From, To),
-  piece_at(W, From, _, bishop),
-  piece_at(W, Fork_a, _, rook),
-  piece_at(W, Fork_b, _, king),
-  \+ queen_evade_mate(W, _, _),
-  \+ queen_bishop_mate(W, _, To),
-  \+ in_check(W),
-  fork(W, From, To, Fork_a, Fork_b),
-  make_move(W, move(From, To), W2),
-  \+ in_illegal_check(W2),
-  \+ turn_king_capturable(W2, To),
-  \+ turn_non_king_capturable(W2, To),
-  once(turn_king_evadable(W2, Fork_b, KingTo)),
-  make_move(W2, move(Fork_b, KingTo), W3),
-  make_capture_move(W3, move(To, Fork_a), W4),
-  \+ (
-    opponent_hanging(W4, queen, HQueen),
-    attack_see(W4, _, HQueen)
-  ),
-   \+ (
-    opponent_hanging(W4, rook, HRook),
-    attack_see(W4, _, HRook)
-  ).
-
-*/
-
 bishop_fork_candidate(W, From, To, Fork_a, Fork_b) :-
   piece_at(W, From, _, bishop),
   piece_at(W, Fork_a, _, rook),
@@ -86,15 +61,31 @@ bishop_fork_precheck(W, _From, To) :-
   \+ queen_bishop_mate(W, _, To),
   \+ in_check(W).
 
-bishop_fork_post(W, From, To, Fork_a, Fork_b, W4) :-
+bishop_fork_post(W, From, To, Fork_a, Fork_b, W_out) :-
   make_move(W, move(From, To), W2),
   \+ in_illegal_check(W2),
-  \+ turn_king_capturable(W2, To),
-  \+ turn_non_king_capturable(W2, To),
-  once(turn_king_evadable(W2, Fork_b, KingTo)),
-  make_move(W2, move(Fork_b, KingTo), W3),
+  handle_king_capture_scenario(W2, To, W_out),
+  handle_non_king_capture_scenario(W2, To, W_out),
+  handle_king_evade_scenario(W2, To, Fork_a, Fork_b, W_out).
+
+
+
+
+handle_king_capture_scenario(W2, To, W2) :-
+  \+ turn_king_capturable(W2, To).
+
+handle_non_king_capture_scenario(W2, To, W2) :-
+  \+ turn_non_king_capturable(W2, To).
+
+handle_king_evade_scenario(W2, To, Fork_a, Fork_b, W_out) :-
+  (once(turn_king_evadable(W2, Fork_b, KingTo)) ->
+  (make_move(W2, move(Fork_b, KingTo), W3),
   make_capture_move(W3, move(To, Fork_a), W4),
-  \+ bad_trade(W4).
+  \+ bad_trade(W4));
+  W_out = W2
+  ).
+
+
 
 bad_trade(W) :-
   opponent_hanging(W, Piece, Sq),
@@ -106,6 +97,15 @@ bishop_forks(W, Move, W4) :-
   bishop_fork_precheck(W, From, To),
   bishop_fork_candidate(W, From, To, Fork_a, Fork_b),
   bishop_fork_post(W, From, To, Fork_a, Fork_b, W4).
+
+
+bishop_forks_no_post(W, Move) :-
+  Move = move(From, To),
+  bishop_fork_precheck(W, From, To),
+  bishop_fork_candidate(W, From, To, _, _).
+
+
+
 
 
 queen_see_king_with_bishop(W, From, To) :-
@@ -128,6 +128,8 @@ candidate(W, Move) :-
   bishop_forks(W, Move, _).
 %  queen_mate(W, From, To).
 
+candidate_detect_negative(W, Move) :-
+  bishop_forks_no_post(W, Move).
 
 
 true_positive(W) :-
@@ -144,6 +146,17 @@ negative(W) :-
   uci2(W, _),
   \+ candidate(W, _).
 
+true_negative(W) :-
+  negative(W),
+  uci2(W, Move),
+  candidate_detect_negative(W, Move2),
+  Move \= Move2.
+
+false_negative(W) :-
+  negative(W),
+  uci2(W, Move),
+  candidate_detect_negative(W, Move).
+
 coverage :-
   findall(W, true_positive(W), LsTp),
   findall(W, false_positive(W), LsFp), 
@@ -158,6 +171,28 @@ coverage :-
   format('Tp/Fp: ~w/~w N:~w', [Tp, Fp, N]),
   nl,
   format('Coverage: ~2f%, Accuracy: ~2f%', [C, A]).
+
+coverage2 :-
+  findall(W, true_negative(W), LsTn),
+  findall(W, false_negative(W), LsFn),
+  length(LsTn, Tn),
+  length(LsFn, Fn),
+  format('Tn/Fn: ~w/~w', [Tn, Fn]),
+  nl.
+
+show_fn :-
+  findall(W, false_negative(W), Ls), 
+  (take(10, Ls, Ls10), !;
+  Ls = Ls10),
+  show_worlds(Ls10).
+
+show_tn :-
+  findall(W, true_negative(W), Ls), 
+  (take(10, Ls, Ls10), !;
+  Ls = Ls10),
+  show_worlds(Ls10).
+
+
 
 
 
