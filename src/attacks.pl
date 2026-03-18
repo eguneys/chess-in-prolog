@@ -16,6 +16,7 @@
     bishop_attack/3,
     queen_attack/3,
     attacks/4,
+    pawn_attacks/3,
     king_square/3
 ]).
 
@@ -112,8 +113,9 @@ attacks(W, rook, From, To) :- rook_attack(W, From, To).
 attacks(W, bishop, From, To) :- bishop_attack(W, From, To).
 attacks(W, queen, From, To) :- queen_attack(W, From, To).
 attacks(_W, knight, From, To) :- knight_attack(From, To).
-attacks(W, pawn, From, To) :- pawn_attack(W, From, To).
 attacks(_W, king, From, To) :- king_attack(From, To).
+
+pawn_attacks(Color, From, To) :- pawn_attack(From, To, Color).
 
 king_square(W, Color, Sq) :-
   piece_at(W, Sq, king, Color).
