@@ -11,15 +11,32 @@
 :- use_module(moves).
 :- use_module(fen).
 
-queen_evade_mate(W, Move, W3) :-
+
+queen_evade_mate(W, Move, W4) :-
+  Move = move(_, To),
   queen_bishop_capture_evadable(W, Move, W2),
-  Move = move(From, To),
   turn_king_evadable(W2, KingFrom, KingTo),
-  make_move(W2, move(KingFrom, KingTo), W3).
+  make_move(W2, move(KingFrom, KingTo), W3),
+  gives_check(W3, To, To2),
+  make_move(W3, move(To, To2), W4),
+  \+ turn_king_evadable(W4, _, _).
+
+  
+
+queen_evade_mate_capture_rook(W, Move, W4) :-
+  Move = move(_, To),
+  queen_bishop_capture_evadable(W, Move, W2),
+  turn_king_evadable(W2, KingFrom, KingTo),
+  make_move(W2, move(KingFrom, KingTo), W3),
+  opponent_hanging(W3, rook, HRook),
+  attack_see(W3, To, HRook),
+  make_capture_move(W3, move(To, HRook), W4),
+  \+ turn_king_evadable(W4, _, _).
+
   
 
 queen_bishop_capture_evadable(W, Move, W2) :-
-  W = id_0BK2g,
+  %W = id_0BK2g,
   queen_see_king_with_bishop(W, From, To),
   \+ in_check(W),
   \+ opponent_non_king_capturable(W, To),
@@ -29,17 +46,26 @@ queen_bishop_capture_evadable(W, Move, W2) :-
 
 
 
-bishop_forks(W, From, To, Fork_a, Fork_b) :-
+bishop_forks(W, Move, Fork_a, Fork_b, W4) :-
+  Move = move(From, To),
   piece_at(W, From, _, bishop),
   piece_at(W, Fork_a, _, rook),
   piece_at(W, Fork_b, _, king),
+  \+ queen_evade_mate(W, _, _),
   \+ queen_bishop_mate(W, _, To),
   \+ in_check(W),
   fork(W, From, To, Fork_a, Fork_b),
   make_capture_move(W, move(From, To), W2),
   \+ turn_king_capturable(W2, To),
-  \+ turn_non_king_capturable(W2, To).
-  
+  \+ turn_non_king_capturable(W2, To),
+  turn_king_evadable(W2, Fork_b, KingTo), !,
+  make_move(W2, move(Fork_b, KingTo), W3),
+  make_capture_move(W3, move(To, Fork_a), W4),
+  \+ (
+    opponent_hanging(W4, queen, HQueen),
+    attack_see(W4, _, HQueen)
+  ).
+
 
 
 queen_see_king_with_bishop(W, From, To) :-
@@ -59,8 +85,7 @@ queen_bishop_mate(W, From, To) :-
 
 
 candidate(W, Move) :- 
-  Move = move(From, To),
-  bishop_forks(W, From, To, _, _).
+  bishop_forks(W, Move, _, _, _).
 %  queen_mate(W, From, To).
 
 
