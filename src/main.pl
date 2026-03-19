@@ -64,9 +64,11 @@ bishop_fork_precheck(W, _From, To) :-
 bishop_fork_post(W, From, To, Fork_a, Fork_b, W_out) :-
   make_move(W, move(From, To), W2),
   \+ in_illegal_check(W2),
-  handle_king_capture_scenario(W2, To, W_out),
-  handle_non_king_capture_scenario(W2, To, W_out),
-  handle_king_evade_scenario(W2, To, Fork_a, Fork_b, W_out).
+  (
+    handle_king_capture_scenario(W2, To, W_out);
+    handle_non_king_capture_scenario(W2, To, W_out);
+    handle_king_evade_scenario(W2, To, Fork_a, Fork_b, W_out)
+  ).
 
 
 
@@ -74,8 +76,14 @@ bishop_fork_post(W, From, To, Fork_a, Fork_b, W_out) :-
 handle_king_capture_scenario(W2, To, W2) :-
   \+ turn_king_capturable(W2, To).
 
-handle_non_king_capture_scenario(W2, To, W2) :-
-  \+ turn_non_king_capturable(W2, To).
+handle_non_king_capture_scenario(W2, To, W_out) :-
+  (once(turn_non_king_capturable(W2, From, To)) ->
+  (
+    make_capture_move(W2, move(From, To), W_out)
+  );
+  W_out = W2
+  ).
+
 
 handle_king_evade_scenario(W2, To, Fork_a, Fork_b, W_out) :-
   (once(turn_king_evadable(W2, Fork_b, KingTo)) ->

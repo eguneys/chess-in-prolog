@@ -20,7 +20,7 @@
   opponent_non_king_capturable/2,
   opponent_king_evadable/2,
   turn_king_evadable/3,
-  turn_non_king_capturable/2,
+  turn_non_king_capturable/3,
   opponent_king_capturable/2,
   turn_king_capturable/2,
 
@@ -164,7 +164,7 @@ opponent_king_capturable(W, To) :-
   attack_see(W, From, To),
   \+ turn_see(W, _, To).
 
-turn_non_king_capturable(W, To) :-
+turn_non_king_capturable(W, From, To) :-
   turn_see(W, From, To),
   turn(W, Piece, From),
   Piece \= king.
