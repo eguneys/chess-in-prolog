@@ -22,7 +22,7 @@
   turn_king_evadable/3,
   turn_non_king_capturable/3,
   opponent_king_capturable/2,
-  turn_king_capturable/2,
+  turn_king_capturable/3,
 
   in_check/1,
   in_illegal_check/1,
@@ -157,7 +157,7 @@ turn_king_evadable(W, From, To) :-
   vacant_or_attack_see(W, From, To),
   \+ opponent_see(W, _, To),
   make_move(W, move(From, To), W2),
-  \+ opponent_see(W2, _, To).
+  \+ turn_see(W2, _, To).
 
 opponent_king_capturable(W, To) :-
   opponent(W, king, From),
@@ -171,7 +171,7 @@ turn_non_king_capturable(W, From, To) :-
 
 
 
-turn_king_capturable(W, To) :-
+turn_king_capturable(W, From, To) :-
   turn(W, king, From),
   attack_see(W, From, To),
   \+ opponent_see(W, _, To).
