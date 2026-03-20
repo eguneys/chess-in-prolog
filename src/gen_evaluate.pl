@@ -3,7 +3,7 @@
 :- use_module(moves).
 :- use_module(forks).
 
-queen_see_king_with_bishop_candidate(W, From, To) :-
+queen_see_king_with_bishop(W, From, To) :-
   turn_queens(W, From),
   opponent_king_see(W, To),
   attack_see(W, From, To),
@@ -19,7 +19,8 @@ bishop_fork_candidate(W, From, To, Fork_a, Fork_b) :-
   fork(W, From, To, Fork_a, Fork_b).
 
 candidate_move(W, Ctx, Move, Ctx2) :-
-  queen_see_king_with_bishop_candidate(W, From, To),
+  queen_see_king_with_bishop(W, From, To),
+  \+ opponent_non_king_capturable(W, To),
   Move = move(From, To),
   Ctx2 = Ctx.put(queen_bishop_mate, yes).
 
@@ -47,14 +48,28 @@ refutation_move(W, Ctx, Move, Ctx2) :-
     Ctx2 = Ctx.put(bishop_fork_king_evade, yes)
   ).
 
+refutation_move(W, Ctx, Move, Ctx2) :- 
+  dict_match(ctx{bishop_fork: bishop_fork(_, BishopTo, _Fork_a, Fork_b)}, Ctx),
+  once(turn_non_king_capturable(W, From, BishopTo)) ->
+  (
+    Move = move(From, BishopTo),
+    Ctx2 = Ctx.put(bishop_fork_non_king_captures, yes)
+  ).
 
 
 
 
-decisive_terminal(_) :- fail.
+
+
+decisive_terminal(W, _) :- 
+in_check(W),
+\+ turn_king_evadable(W, _, _).
+
+
 evaluate_context(Ctx, 5):- dict_match(ctx{bishop_fork_king_evade: yes},Ctx), !.
 evaluate_context(Ctx, 15):- dict_match(ctx{queen_bishop_mate: yes},Ctx), !.
 evaluate_context(Ctx, -5):- dict_match(ctx{bishop_fork_king_captures: _},Ctx), !.
+evaluate_context(Ctx, -5):- dict_match(ctx{bishop_fork_non_king_captures: _},Ctx), !.
 evaluate_context(_, -1).
 
 
@@ -72,8 +87,8 @@ gen(min, state(W, Ctx), Move, state(W2, Ctx2)) :-
 evaluate(state(_, Ctx), Score) :-
   evaluate_context(Ctx, Score).
 
-terminal(state(_, Ctx)) :-
-   decisive_terminal(Ctx).
+terminal(state(W, Ctx)) :-
+   decisive_terminal(W, Ctx).
 
 
 % -- Dict Utility -- %
